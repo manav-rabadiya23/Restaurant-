@@ -1,0 +1,112 @@
+@import "./fonts.css";
+@import "./tailwind.css";
+@import "./theme.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: #0f0f0f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input[type="date"],
+input[type="time"] {
+  color-scheme: light;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 1;
+  cursor: pointer;
+}
+
+select option {
+  color: black;
+}
+
+@keyframes pulseSlow {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes floatSlowAlt {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 7s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlowAlt 8s ease-in-out infinite;
+}
+
+.loader-ring {
+  width: 78px;
+  height: 78px;
+  border: 6px solid rgba(255, 255, 255, 0.12);
+  border-top: 6px solid #fb923c;
+  border-radius: 999px;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 30px rgba(251, 146, 60, 0.35);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@media (max-width: 640px) {
+  h1,
+  h2,
+  h3 {
+    word-break: break-word;
+  }
+}
