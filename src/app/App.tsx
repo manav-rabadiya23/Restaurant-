@@ -62,21 +62,19 @@ function App() {
   }, [cartItems]);
 
   /**
-   * ENHANCED NAVIGATION HANDLER
-   * This handles switching screens and scrolling to specific IDs
+   * NAVIGATION HANDLER
+   * Switches screen to home and scrolls to target section
    */
   const handleNavigate = (href: string) => {
-    // 1. Switch back to home screen immediately
     setActiveScreen("home");
     setActiveNav(href);
 
-    // 2. Wait for React to mount the Home components, then scroll
     setTimeout(() => {
       const targetId = href.startsWith("#") ? href.substring(1) : href;
       const element = document.getElementById(targetId);
 
       if (element) {
-        const headerOffset = 80; // Space for fixed header
+        const headerOffset = 80;
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition =
           elementPosition + window.pageYOffset - headerOffset;
@@ -154,13 +152,22 @@ function App() {
     setIsCartOpen(true);
   };
 
+  /**
+   * PLACE ORDER HANDLER
+   * Fixed: Closes cart and triggers Success Modal
+   */
   const handlePlaceOrder = (order: Order) => {
     const newHistory = [order, ...orderHistory];
     setOrderHistory(newHistory);
     localStorage.setItem("restaurant-orders", JSON.stringify(newHistory));
-    setLastOrder(order);
-    showToast("ORDER PLACED! CHECK TRACKING IN PROFILE.");
+
+    // Reset Cart & Close Drawer
     setCartItems([]);
+    setIsCartOpen(false);
+
+    // Show Success Modal
+    setLastOrder(order);
+    showToast("ORDER PLACED SUCCESSFULLY! 🍽️");
   };
 
   if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
@@ -233,6 +240,7 @@ function App() {
 
       <Footer onLogout={handleLogout} />
 
+      {/* OVERLAYS */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -260,10 +268,12 @@ function App() {
         onPlaceOrder={handlePlaceOrder}
       />
 
-      <OrderSuccess order={lastOrder} onClose={() => setLastOrder(null)} />
+      {lastOrder && (
+        <OrderSuccess order={lastOrder} onClose={() => setLastOrder(null)} />
+      )}
 
       {toast && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-orange-500 px-8 py-4 rounded-full text-black font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce pointer-events-none">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] bg-orange-500 px-8 py-4 rounded-full text-black font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce pointer-events-none">
           {toast}
         </div>
       )}

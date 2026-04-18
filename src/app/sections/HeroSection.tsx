@@ -32,7 +32,7 @@ export default function HeroSection({
       id="home"
       className="relative min-h-screen w-full overflow-hidden bg-[#050505] text-white flex flex-col justify-start md:justify-center"
     >
-      {/* --- BACKGROUND ORBS (Pointer events none to prevent blocking clicks) --- */}
+      {/* --- BACKGROUND ORBS (pointer-events-none ensures buttons remain clickable) --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <motion.div
           animate={{ scale: [1, 1.2, 1], x: [0, 40, 0], y: [0, -20, 0] }}
@@ -41,19 +41,19 @@ export default function HeroSection({
         />
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 px-6 pt-28 pb-12 md:py-20 md:grid-cols-2 lg:gap-20 w-full">
-        {/* --- RIGHT: IMAGE (Shows first on mobile) --- */}
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-6 pt-28 pb-12 md:py-20 md:grid-cols-2 lg:gap-20 w-full">
+        {/* --- RIGHT: IMAGE & BADGE (order-1 moves this to the top on mobile) --- */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
-          className="relative order-1 md:order-2 w-full max-w-[450px] mx-auto md:max-w-none"
+          className="relative order-1 md:order-2 w-full max-w-[450px] mx-auto md:max-w-none flex flex-col gap-6"
         >
           <div className="relative group">
             <div className="absolute -inset-1 rounded-[2.5rem] bg-orange-600/20 blur-2xl group-hover:opacity-40 transition duration-1000"></div>
 
             <motion.div
-              whileTap={{ scale: 0.97 }}
+              whileTap={{ scale: 0.98 }}
               className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-2xl bg-neutral-900 z-10"
             >
               <img
@@ -61,7 +61,9 @@ export default function HeroSection({
                 alt="Gujarati Thali"
                 className="h-[300px] sm:h-[400px] md:h-[600px] lg:h-[650px] w-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-              <div className="absolute top-4 left-4 flex items-center gap-3 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10">
+
+              {/* Status Badge */}
+              <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-3 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -71,27 +73,27 @@ export default function HeroSection({
                 </span>
               </div>
             </motion.div>
-
-            {/* Floating Badge */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="relative z-20 -mt-8 md:-mt-10 mx-auto w-[90%] md:w-auto md:mx-8 flex items-center gap-4 rounded-2xl border border-white/10 bg-[#121212]/95 p-4 md:p-6 backdrop-blur-2xl shadow-2xl"
-            >
-              <div className="flex h-10 w-10 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg">
-                <Users className="text-white" size={20} />
-              </div>
-              <div>
-                <p className="text-[9px] uppercase tracking-[0.2em] text-orange-400 font-bold mb-0.5">
-                  Perfect for
-                </p>
-                <p className="font-bold text-white text-sm md:text-xl">
-                  Family Celebrations
-                </p>
-              </div>
-            </motion.div>
           </div>
+
+          {/* Clean Info Badge (Sitting neatly below the photo) */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="relative z-20 flex items-center gap-5 rounded-2xl border border-white/5 bg-white/[0.03] p-5 md:p-6 backdrop-blur-md shadow-xl"
+          >
+            <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg">
+              <Users className="text-white" size={24} />
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-orange-400 font-bold mb-0.5">
+                Perfect for
+              </p>
+              <p className="font-bold text-white text-base md:text-xl">
+                Family Celebrations
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* --- LEFT: CONTENT --- */}
@@ -113,11 +115,8 @@ export default function HeroSection({
             className="text-5xl font-black leading-[1.1] sm:text-7xl lg:text-8xl tracking-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            <div className="overflow-hidden">
-              <motion.span
-                variants={lineVariants}
-                className="block text-neutral-200"
-              >
+            <div className="overflow-hidden text-neutral-200">
+              <motion.span variants={lineVariants} className="block">
                 Taste the
               </motion.span>
             </div>
@@ -157,23 +156,24 @@ export default function HeroSection({
 
           <motion.p
             variants={lineVariants}
-            className="mt-6 max-w-lg mx-auto md:mx-0 text-base md:text-lg leading-relaxed text-neutral-400 font-light"
+            className="mt-8 max-w-lg mx-auto md:mx-0 text-base md:text-lg leading-relaxed text-neutral-400 font-light"
           >
             Namaste,{" "}
             <span className="text-orange-500 font-semibold">{userName}</span>.
             Experience an authentic culinary journey.
           </motion.p>
 
+          {/* Button Container with High Z-Index */}
           <motion.div
             variants={lineVariants}
-            className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-4 relative z-50"
+            className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-5 relative z-50"
           >
             <button
               onClick={(e) => {
                 e.preventDefault();
                 setActiveNav("#menu");
               }}
-              className="group cursor-pointer relative z-50 flex items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 font-bold text-white hover:bg-orange-500 transition-all active:scale-95 shadow-lg shadow-orange-600/20"
+              className="group cursor-pointer relative z-50 flex items-center justify-center gap-3 rounded-full bg-orange-600 px-10 py-4 font-bold text-white hover:bg-orange-500 transition-all active:scale-95 shadow-lg shadow-orange-600/20"
             >
               Explore Menu <Utensils size={18} />
             </button>
@@ -182,7 +182,7 @@ export default function HeroSection({
                 e.preventDefault();
                 setActiveNav("#booking");
               }}
-              className="cursor-pointer relative z-50 rounded-full border border-white/10 bg-white/5 px-8 py-4 font-bold backdrop-blur-md hover:bg-white/10 transition-all active:scale-95 text-white"
+              className="group cursor-pointer relative z-50 rounded-full border border-white/10 bg-white/5 px-10 py-4 font-bold backdrop-blur-md hover:bg-white/10 transition-all active:scale-95 text-white"
             >
               Reserve Table
             </button>
