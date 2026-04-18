@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LogOut, ChevronDown, ShoppingCart, Menu, X } from "lucide-react";
+import { LogOut, ChevronDown, ShoppingCart, Menu, X, User } from "lucide-react";
 import { restaurantName } from "../../data/restaurantData";
 
 export default function Header({
@@ -8,12 +8,14 @@ export default function Header({
   onLogout,
   onOpenCart,
   cartCount,
+  onProfileClick, // Added prop for profile navigation
 }: {
   activeNav: string;
   setActiveNav: (href: string) => void;
   onLogout: () => void;
   onOpenCart: () => void;
   cartCount: number;
+  onProfileClick: () => void; // Added type definition
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -25,13 +27,25 @@ export default function Header({
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <a
             href="#home"
-            onClick={() => setActiveNav("#home")}
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveNav("#home");
+            }}
             className="text-xl font-black text-orange-400 sm:text-2xl"
           >
             {restaurantName}
           </a>
 
           <nav className="hidden items-center gap-3 text-sm font-medium lg:flex">
+            {/* Desktop Profile Link */}
+            <button
+              onClick={onProfileClick}
+              className="flex items-center gap-2 rounded-full px-4 py-2 text-white/80 transition hover:bg-white/5 hover:text-orange-400"
+            >
+              <User className="h-4 w-4" />
+              Profile
+            </button>
+
             <a
               href="#menu"
               onClick={() => setActiveNav("#menu")}
@@ -115,6 +129,7 @@ export default function Header({
         </div>
       </header>
 
+      {/* Mobile Overlay */}
       <div
         className={`fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition ${
           mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"
@@ -122,6 +137,7 @@ export default function Header({
         onClick={closeMobileMenu}
       />
 
+      {/* Mobile Drawer */}
       <aside
         className={`fixed right-0 top-0 z-[70] h-full w-full max-w-sm transform border-l border-white/10 bg-[#0f0f0f] shadow-2xl transition-transform duration-300 lg:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -140,6 +156,18 @@ export default function Header({
 
           <div className="flex-1 overflow-y-auto px-5 py-5">
             <div className="space-y-3">
+              {/* Mobile Profile Link */}
+              <button
+                onClick={() => {
+                  onProfileClick();
+                  closeMobileMenu();
+                }}
+                className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white/85 transition hover:border-orange-400/30 hover:text-orange-300 text-left"
+              >
+                <User className="h-5 w-5 text-orange-400" />
+                <span className="font-medium">My Profile & Orders</span>
+              </button>
+
               <a
                 href="#menu"
                 onClick={() => {
