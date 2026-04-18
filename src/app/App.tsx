@@ -32,7 +32,6 @@ function App() {
   const [toast, setToast] = useState("");
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const toastTimeoutRef = useRef<number | null>(null);
 
   // Load persistent data from localStorage
@@ -62,14 +61,34 @@ function App() {
     localStorage.setItem("restaurant-cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Navigation wrapper to fix the profile-lock issue
+  /**
+   * ENHANCED NAVIGATION HANDLER
+   * This handles switching screens and scrolling to specific IDs
+   */
   const handleNavigate = (href: string) => {
-    setActiveNav(href);
-    // Switches back to home screen so sections are visible to scroll
+    // 1. Switch back to home screen immediately
     setActiveScreen("home");
+    setActiveNav(href);
+
+    // 2. Wait for React to mount the Home components, then scroll
+    setTimeout(() => {
+      const targetId = href.startsWith("#") ? href.substring(1) : href;
+      const element = document.getElementById(targetId);
+
+      if (element) {
+        const headerOffset = 80; // Space for fixed header
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    }, 150);
   };
 
-  // Profile update handler (forces uppercase)
   const handleUpdateUser = (newName: string) => {
     const upperName = newName.toUpperCase();
     setUserName(upperName);
@@ -89,9 +108,7 @@ function App() {
           selectedCategory === "All" || item.category === selectedCategory;
         const searchMatch =
           item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchTerm.toLowerCase());
-
+          item.desc.toLowerCase().includes(searchTerm.toLowerCase());
         return categoryMatch && searchMatch;
       }),
     [searchTerm, selectedCategory],
@@ -118,7 +135,7 @@ function App() {
   const showToast = (message: string) => {
     setToast(message);
     if (toastTimeoutRef.current) window.clearTimeout(toastTimeoutRef.current);
-    toastTimeoutRef.current = window.setTimeout(() => setToast(""), 2000);
+    toastTimeoutRef.current = window.setTimeout(() => setToast(""), 2500);
   };
 
   const handleAddToCart = (item: MenuItem) => {
@@ -141,7 +158,6 @@ function App() {
     const newHistory = [order, ...orderHistory];
     setOrderHistory(newHistory);
     localStorage.setItem("restaurant-orders", JSON.stringify(newHistory));
-
     setLastOrder(order);
     showToast("ORDER PLACED! CHECK TRACKING IN PROFILE.");
     setCartItems([]);
@@ -151,7 +167,7 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#0b0b0b] text-white selection:bg-orange-500/30">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(251,146,60,0.12),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(250,204,21,0.08),_transparent_24%)]" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(251,146,60,0.12),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(250,204,21,0.08),_transparent_24%)] pointer-events-none" />
 
       <Header
         activeNav={activeNav}
@@ -247,7 +263,7 @@ function App() {
       <OrderSuccess order={lastOrder} onClose={() => setLastOrder(null)} />
 
       {toast && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-orange-500 px-8 py-4 rounded-full text-black font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-orange-500 px-8 py-4 rounded-full text-black font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce pointer-events-none">
           {toast}
         </div>
       )}

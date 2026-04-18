@@ -14,10 +14,7 @@ export default function HeroSection({
     initial: { opacity: 0 },
     animate: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 },
     },
   };
 
@@ -26,51 +23,90 @@ export default function HeroSection({
     animate: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 1.2,
-        ease: [0.16, 1, 0.3, 1],
-      },
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
     <section
       id="home"
-      className="relative min-h-screen w-full overflow-hidden bg-[#050505] text-white flex items-center"
+      className="relative min-h-screen w-full overflow-hidden bg-[#050505] text-white flex flex-col justify-start md:justify-center"
     >
-      {/* --- LIVE BACKGROUND ORBS --- */}
+      {/* --- BACKGROUND ORBS (Pointer events none to prevent blocking clicks) --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <motion.div
           animate={{ scale: [1, 1.2, 1], x: [0, 40, 0], y: [0, -20, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute left-[-10%] top-[-10%] h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full bg-orange-600/10 blur-[80px] md:blur-[150px]"
         />
-        <motion.div
-          animate={{ scale: [1.2, 1, 1.2], x: [0, -30, 0] }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-          className="absolute right-[-10%] bottom-[-10%] h-[250px] w-[250px] md:h-[500px] md:w-[500px] rounded-full bg-yellow-500/5 blur-[80px] md:blur-[120px]"
-        />
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 py-12 md:grid-cols-2 lg:gap-20 w-full">
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 px-6 pt-28 pb-12 md:py-20 md:grid-cols-2 lg:gap-20 w-full">
+        {/* --- RIGHT: IMAGE (Shows first on mobile) --- */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="relative order-1 md:order-2 w-full max-w-[450px] mx-auto md:max-w-none"
+        >
+          <div className="relative group">
+            <div className="absolute -inset-1 rounded-[2.5rem] bg-orange-600/20 blur-2xl group-hover:opacity-40 transition duration-1000"></div>
+
+            <motion.div
+              whileTap={{ scale: 0.97 }}
+              className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-2xl bg-neutral-900 z-10"
+            >
+              <img
+                src="/food.jpg"
+                alt="Gujarati Thali"
+                className="h-[300px] sm:h-[400px] md:h-[600px] lg:h-[650px] w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+              />
+              <div className="absolute top-4 left-4 flex items-center gap-3 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white">
+                  Now Serving
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Floating Badge */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="relative z-20 -mt-8 md:-mt-10 mx-auto w-[90%] md:w-auto md:mx-8 flex items-center gap-4 rounded-2xl border border-white/10 bg-[#121212]/95 p-4 md:p-6 backdrop-blur-2xl shadow-2xl"
+            >
+              <div className="flex h-10 w-10 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg">
+                <Users className="text-white" size={20} />
+              </div>
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.2em] text-orange-400 font-bold mb-0.5">
+                  Perfect for
+                </p>
+                <p className="font-bold text-white text-sm md:text-xl">
+                  Family Celebrations
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
         {/* --- LEFT: CONTENT --- */}
         <motion.div
           variants={containerVariants}
           initial="initial"
           animate="animate"
-          className="order-2 md:order-1 text-center md:text-left"
+          className="order-2 md:order-1 text-center md:text-left relative z-20"
         >
           <motion.div
             variants={lineVariants}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-4 py-2 text-[10px] md:text-xs font-bold tracking-widest text-orange-400 uppercase"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-4 py-2 text-[10px] md:text-xs font-bold tracking-widest text-orange-400 uppercase"
           >
             <FaLeaf className="animate-pulse text-orange-500" /> Pure Veg •
-            Vadodara's Pride
+            Vadodara
           </motion.div>
 
           <h1
@@ -86,16 +122,16 @@ export default function HeroSection({
               </motion.span>
             </div>
 
-            {/* --- "SOUL OF" EFFECT --- */}
             <div className="overflow-hidden py-2">
               <motion.span
                 variants={lineVariants}
                 animate={{
-                  y: [0, -5, 0],
+                  y: [0, -8, 0],
+                  opacity: [0.7, 1, 0.7],
                   textShadow: [
-                    "0 0 0px rgba(255,255,255,0)",
-                    "0 0 20px rgba(255,255,255,0.2)",
-                    "0 0 0px rgba(255,255,255,0)",
+                    "0 0 0px rgba(255,165,0,0)",
+                    "0 0 20px rgba(255,165,0,0.4)",
+                    "0 0 0px rgba(255,165,0,0)",
                   ],
                 }}
                 transition={{
@@ -103,7 +139,7 @@ export default function HeroSection({
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="block italic font-serif text-neutral-100 opacity-90"
+                className="block italic font-serif text-neutral-100"
               >
                 soul of
               </motion.span>
@@ -121,91 +157,36 @@ export default function HeroSection({
 
           <motion.p
             variants={lineVariants}
-            className="mt-8 max-w-lg mx-auto md:mx-0 text-base md:text-lg leading-relaxed text-neutral-400 font-light"
+            className="mt-6 max-w-lg mx-auto md:mx-0 text-base md:text-lg leading-relaxed text-neutral-400 font-light"
           >
             Namaste,{" "}
             <span className="text-orange-500 font-semibold">{userName}</span>.
-            Experience an authentic culinary journey through the heart of
-            Vadodara.
+            Experience an authentic culinary journey.
           </motion.p>
 
           <motion.div
             variants={lineVariants}
-            className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-5"
+            className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-4 relative z-50"
           >
             <button
-              onClick={() => setActiveNav("#menu")}
-              className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-orange-600 px-10 py-4 font-bold text-white transition-all hover:bg-orange-500 hover:shadow-[0_0_40px_rgba(234,88,12,0.4)] active:scale-95"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveNav("#menu");
+              }}
+              className="group cursor-pointer relative z-50 flex items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 font-bold text-white hover:bg-orange-500 transition-all active:scale-95 shadow-lg shadow-orange-600/20"
             >
-              Explore Menu{" "}
-              <Utensils
-                size={18}
-                className="group-hover:rotate-12 transition-transform"
-              />
+              Explore Menu <Utensils size={18} />
             </button>
             <button
-              onClick={() => setActiveNav("#booking")}
-              className="rounded-full border border-white/10 bg-white/5 px-10 py-4 font-bold backdrop-blur-md transition-all hover:border-orange-500 hover:bg-white/10 active:scale-95"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveNav("#booking");
+              }}
+              className="cursor-pointer relative z-50 rounded-full border border-white/10 bg-white/5 px-8 py-4 font-bold backdrop-blur-md hover:bg-white/10 transition-all active:scale-95 text-white"
             >
               Reserve Table
             </button>
           </motion.div>
-        </motion.div>
-
-        {/* --- RIGHT: IMAGE & ANIMATED BADGES --- */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.6, duration: 1 }}
-          className="relative order-1 md:order-2 w-full max-w-[500px] mx-auto md:max-w-none"
-        >
-          <div className="relative group">
-            {/* Outer Glow */}
-            <div className="absolute -inset-1 rounded-[2.5rem] bg-gradient-to-r from-orange-600 to-yellow-600 opacity-20 blur-2xl group-hover:opacity-40 transition duration-1000"></div>
-
-            <motion.div
-              whileInView={{ scale: [0.98, 1] }}
-              whileTap={{ scale: 0.97 }} // Feedback for mobile users
-              className="relative overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl bg-neutral-900 z-10"
-            >
-              <img
-                src="/food.jpg"
-                alt="Gujarati Thali"
-                className="h-[400px] w-full object-cover md:h-[600px] lg:h-[650px] transition-transform duration-1000 group-hover:scale-110"
-              />
-
-              {/* Now Serving Badge */}
-              <div className="absolute top-6 left-6 flex items-center gap-3 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white">
-                  Now Serving
-                </span>
-              </div>
-            </motion.div>
-
-            {/* --- FLOATING BADGE (Fixed position) --- */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="relative z-20 -mt-10 mx-auto w-[85%] md:w-auto md:mx-8 flex items-center gap-5 rounded-2xl border border-white/10 bg-[#121212]/95 p-5 md:p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
-            >
-              <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg">
-                <Users className="text-white" size={24} />
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-orange-400 font-bold mb-1">
-                  Perfect for
-                </p>
-                <p className="font-bold text-white text-base md:text-xl">
-                  Family Celebrations
-                </p>
-              </div>
-            </motion.div>
-          </div>
         </motion.div>
       </div>
 
