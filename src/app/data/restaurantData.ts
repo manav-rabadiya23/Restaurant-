@@ -294,10 +294,11 @@ export const initialReviews: Review[] = [
 export const galleryImages = [
   "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80",
   "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80",
-  "gallery-1.png",
-  "Undhiyu.png",
-  "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1000&q=80",
-  "public/Masala Tea.png",
+  "/gallery-1.png",
+  "/Undhiyu.png",
+  "/Masala Tea.png",
+  "/Fresh Lime Soda.png",
+  "/food.jpg",
 ];
 
 export const navItems: NavItem[] = [

@@ -1,6 +1,9 @@
 import { galleryImages } from "../data/restaurantData";
 
 export default function GallerySection() {
+  // Take exactly 7 unique images from your data
+  const displayImages = galleryImages.slice(0, 7);
+
   return (
     <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
       <div className="mb-12 text-center">
@@ -13,54 +16,55 @@ export default function GallerySection() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        {/* Column 1 */}
         <div className="grid gap-4">
           <img
-            src={galleryImages[0]}
-            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80"
-            alt="gallery"
+            src={displayImages[0]}
+            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52 bg-neutral-900 shadow-xl"
+            alt="Gallery 1"
           />
           <img
-            src={galleryImages[1]}
-            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52"
-            alt="gallery"
+            src={displayImages[1]}
+            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80 bg-neutral-900 shadow-xl"
+            alt="Gallery 2"
           />
         </div>
+
+        {/* Column 2: Large Featured Image */}
         <div className="grid gap-4">
           <img
-            src={galleryImages[2]}
-            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52"
-            alt="gallery"
-          />
-          <img
-            src={galleryImages[3]}
-            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80"
-            alt="gallery"
+            src={displayImages[5]}
+            className="h-[340px] md:h-full w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.01] bg-neutral-900 shadow-xl"
+            alt="Gallery 3"
           />
         </div>
+
+        {/* Column 3 */}
         <div className="grid gap-4">
           <img
-            src={galleryImages[4]}
-            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80"
-            alt="gallery"
+            src={displayImages[3]}
+            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80 bg-neutral-900 shadow-xl"
+            alt="Gallery 4"
           />
           <img
-            src={galleryImages[5]}
-            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52"
-            alt="gallery"
+            src={displayImages[4]}
+            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52 bg-neutral-900 shadow-xl"
+            alt="Gallery 5"
           />
         </div>
-        <div className="hidden gap-4 md:grid">
-          <div className="flex h-full items-center justify-center rounded-3xl border border-dashed border-orange-400/30 bg-orange-500/5 p-8 text-center">
-            <div>
-              <h3 className="text-2xl font-bold text-orange-300">
-                Real Restaurant Photos
-              </h3>
-              <p className="mt-3 text-white/70">
-                Replace stock images later with your own food and ambience
-                photos for a final business-ready version.
-              </p>
-            </div>
-          </div>
+
+        {/* Column 4 */}
+        <div className="grid gap-4">
+          <img
+            src={displayImages[2]}
+            className="h-40 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-52 bg-neutral-900 shadow-xl"
+            alt="Gallery 6"
+          />
+          <img
+            src={displayImages[6]}
+            className="h-64 w-full rounded-3xl object-cover transition duration-300 hover:scale-[1.02] sm:h-80 bg-neutral-900 shadow-xl"
+            alt="Gallery 7"
+          />
         </div>
       </div>
     </section>
