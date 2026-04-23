@@ -62,6 +62,7 @@ const Hero: React.FC = () => {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href="#menu"
+              aria-label="Explore menu section"
               className="rounded-full bg-[#d97706] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#d97706]/20 transition hover:scale-105 hover:bg-[#b45309]"
             >
               Explore Menu
@@ -69,6 +70,7 @@ const Hero: React.FC = () => {
 
             <a
               href="#booking"
+              aria-label="Reserve a table"
               className="rounded-full border border-[#f8efe233] bg-[#ffffff08] px-7 py-3.5 font-semibold text-[#f8efe2] transition hover:scale-105 hover:border-[#d97706] hover:bg-[#d97706]/10"
             >
               Reserve Now
@@ -104,10 +106,13 @@ const Hero: React.FC = () => {
             <div className="absolute inset-3 rounded-full border border-dashed border-[#f59e0b]/20" />
             <div className="absolute inset-8 rounded-full border border-[#ffffff12]" />
 
-            <img
-              src="/food.jpg"
-              alt="Gujarati Thali"
-              className="h-full w-full rounded-full object-cover z-50 relative"
+            <video
+              src="/edited-ready.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full rounded-full object-cover relative"
             />
           </div>
 

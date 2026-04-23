@@ -56,10 +56,13 @@ export default function HeroSection({
               whileTap={{ scale: 0.98 }}
               className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-2xl bg-neutral-900 z-10"
             >
-              <img
-                src="/food.jpg"
-                alt="Gujarati Thali"
-                className="h-[300px] sm:h-[400px] md:h-[600px] lg:h-[650px] w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+              <video
+                src="/edited-ready.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full w-full rounded-full object-cover relative"
               />
 
               {/* Status Badge */}

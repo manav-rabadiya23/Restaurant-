@@ -1,8 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import LoginPage from "./components/auth/LoginPage";
+import SignupPage from "./components/auth/SignupPage";
+import ForgotPassword from "./components/auth/ForgotPassword";
+
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
+
 import { initialReviews, menuItems } from "./data/restaurantData";
+
 import AboutSection from "./sections/AboutSection";
 import BookingSection from "./sections/BookingSection";
 import CartDrawer from "./sections/CartDrawer";
@@ -15,11 +20,17 @@ import MenuSection from "./sections/MenuSection";
 import ReviewsSection from "./sections/ReviewsSection";
 import OrderSuccess from "./sections/OrderSuccess";
 import ProfilePage from "./sections/ProfilePage";
-import type { CartItem, MenuItem, Order } from "./types";
+
+import type { CartItem, MenuItem, Order, Review } from "./types";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
+
+  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot">(
+    "login",
+  );
+
   const [activeScreen, setActiveScreen] = useState<"home" | "profile">("home");
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
 
@@ -34,37 +45,34 @@ function App() {
 
   const toastTimeoutRef = useRef<number | null>(null);
 
-  // Load persistent data from localStorage
+  // ⭐ FEEDBACK STATE
+  const [feedbackName, setFeedbackName] = useState("");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackRating, setFeedbackRating] = useState(0);
+
+  // ⭐ LIVE REVIEWS STATE (IMPORTANT)
+  const [liveReviews, setLiveReviews] = useState<Review[]>(initialReviews);
+
+  // LOAD LOCAL STORAGE
   useEffect(() => {
     const savedCart = localStorage.getItem("restaurant-cart");
     const savedOrders = localStorage.getItem("restaurant-orders");
     const savedName = localStorage.getItem("restaurant-user-name");
 
-    if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch {
-        setCartItems([]);
-      }
+    if (savedCart) setCartItems(JSON.parse(savedCart));
+    if (savedOrders) setOrderHistory(JSON.parse(savedOrders));
+
+    if (savedName) {
+      setUserName(savedName);
+      setIsLoggedIn(true);
     }
-    if (savedOrders) {
-      try {
-        setOrderHistory(JSON.parse(savedOrders));
-      } catch {
-        setOrderHistory([]);
-      }
-    }
-    if (savedName) setUserName(savedName);
   }, []);
 
   useEffect(() => {
     localStorage.setItem("restaurant-cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  /**
-   * NAVIGATION HANDLER
-   * Switches screen to home and scrolls to target section
-   */
+  // NAVIGATION
   const handleNavigate = (href: string) => {
     setActiveScreen("home");
     setActiveNav(href);
@@ -74,19 +82,15 @@ function App() {
       const element = document.getElementById(targetId);
 
       if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition =
-          elementPosition + window.pageYOffset - headerOffset;
-
         window.scrollTo({
-          top: offsetPosition,
+          top: element.getBoundingClientRect().top + window.pageYOffset - 80,
           behavior: "smooth",
         });
       }
     }, 150);
   };
 
+  // USER UPDATE
   const handleUpdateUser = (newName: string) => {
     const upperName = newName.toUpperCase();
     setUserName(upperName);
@@ -94,29 +98,31 @@ function App() {
     showToast("PROFILE UPDATED SUCCESSFULLY");
   };
 
+  // MENU FILTER
   const categories = useMemo(
     () => ["All", ...new Set(menuItems.map((item) => item.category))],
     [],
   );
 
-  const filteredMenu = useMemo(
-    () =>
-      menuItems.filter((item) => {
-        const categoryMatch =
-          selectedCategory === "All" || item.category === selectedCategory;
-        const searchMatch =
-          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.desc.toLowerCase().includes(searchTerm.toLowerCase());
-        return categoryMatch && searchMatch;
-      }),
-    [searchTerm, selectedCategory],
-  );
+  const filteredMenu = useMemo(() => {
+    return menuItems.filter((item) => {
+      const categoryMatch =
+        selectedCategory === "All" || item.category === selectedCategory;
+
+      const searchMatch =
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.desc.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return categoryMatch && searchMatch;
+    });
+  }, [searchTerm, selectedCategory]);
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
     [cartItems],
   );
 
+  // LOGIN
   const handleLogin = (name: string) => {
     const upperName = name.toUpperCase();
     setUserName(upperName);
@@ -130,52 +136,83 @@ function App() {
     setActiveScreen("home");
   };
 
+  // TOAST
   const showToast = (message: string) => {
     setToast(message);
     if (toastTimeoutRef.current) window.clearTimeout(toastTimeoutRef.current);
+
     toastTimeoutRef.current = window.setTimeout(() => setToast(""), 2500);
   };
 
+  // CART
   const handleAddToCart = (item: MenuItem) => {
     setCartItems((prev) => {
-      const existing = prev.find((cartItem) => cartItem.name === item.name);
+      const existing = prev.find((i) => i.name === item.name);
+
       if (existing) {
-        return prev.map((cartItem) =>
-          cartItem.name === item.name
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem,
+        return prev.map((i) =>
+          i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i,
         );
       }
+
       return [...prev, { ...item, id: item.name, quantity: 1 }];
     });
+
     showToast(`${item.name.toUpperCase()} ADDED TO CART 🛒`);
-    setIsCartOpen(true);
   };
 
-  /**
-   * PLACE ORDER HANDLER
-   * Fixed: Closes cart and triggers Success Modal
-   */
+  // ORDER
   const handlePlaceOrder = (order: Order) => {
     const newHistory = [order, ...orderHistory];
+
     setOrderHistory(newHistory);
     localStorage.setItem("restaurant-orders", JSON.stringify(newHistory));
 
-    // Reset Cart & Close Drawer
     setCartItems([]);
-    setIsCartOpen(false);
-
-    // Show Success Modal
     setLastOrder(order);
     showToast("ORDER PLACED SUCCESSFULLY! 🍽️");
   };
 
-  if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
+  // ⭐ FEEDBACK SUBMIT (LIVE REVIEW FIX)
+  const handleFeedbackSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (feedbackRating === 0) {
+      showToast("PLEASE GIVE A RATING ⭐");
+      return;
+    }
+
+    const newReview: Review = {
+      name: feedbackName,
+      text: feedbackMessage,
+      rating: feedbackRating,
+      role: "Customer",
+    };
+
+    setLiveReviews((prev) => [newReview, ...prev]);
+
+    setFeedbackName("");
+    setFeedbackMessage("");
+    setFeedbackRating(0);
+
+    showToast("FEEDBACK ADDED ⭐");
+  };
+
+  // AUTH
+  if (!isLoggedIn) {
+    if (authMode === "login") {
+      return <LoginPage onLogin={handleLogin} setAuthMode={setAuthMode} />;
+    }
+    if (authMode === "signup") {
+      return <SignupPage onSignup={handleLogin} setAuthMode={setAuthMode} />;
+    }
+    if (authMode === "forgot") {
+      return <ForgotPassword setAuthMode={setAuthMode} />;
+    }
+  }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0b0b0b] text-white selection:bg-orange-500/30">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(251,146,60,0.12),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(250,204,21,0.08),_transparent_24%)] pointer-events-none" />
-
+    <div className="min-h-screen bg-[#0b0b0b] text-white">
       <Header
         activeNav={activeNav}
         setActiveNav={handleNavigate}
@@ -185,7 +222,7 @@ function App() {
         onProfileClick={() => setActiveScreen("profile")}
       />
 
-      <main className="transition-all duration-700 ease-in-out">
+      <main>
         {activeScreen === "profile" ? (
           <ProfilePage
             orders={orderHistory}
@@ -208,16 +245,21 @@ function App() {
             />
             <AboutSection />
             <GallerySection />
-            <ReviewsSection customerReviews={initialReviews} />
+
+            {/* ⭐ LIVE REVIEWS */}
+            <ReviewsSection customerReviews={liveReviews} />
+
+            {/* ⭐ FEEDBACK FORM */}
             <FeedbackSection
-              feedbackName={userName}
-              setFeedbackName={() => {}}
-              feedbackMessage=""
-              setFeedbackMessage={() => {}}
-              feedbackRating={0}
-              setFeedbackRating={() => {}}
-              onSubmit={(e) => e.preventDefault()}
+              feedbackName={feedbackName}
+              setFeedbackName={setFeedbackName}
+              feedbackMessage={feedbackMessage}
+              setFeedbackMessage={setFeedbackMessage}
+              feedbackRating={feedbackRating}
+              setFeedbackRating={setFeedbackRating}
+              onSubmit={handleFeedbackSubmit}
             />
+
             <BookingSection
               bookingName={userName}
               setBookingName={() => {}}
@@ -233,6 +275,7 @@ function App() {
               setSpecialRequest={() => {}}
               onSubmit={(e) => e.preventDefault()}
             />
+
             <ContactSection />
           </>
         )}
@@ -240,7 +283,6 @@ function App() {
 
       <Footer onLogout={handleLogout} />
 
-      {/* OVERLAYS */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -273,7 +315,7 @@ function App() {
       )}
 
       {toast && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] bg-orange-500 px-8 py-4 rounded-full text-black font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce pointer-events-none">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-orange-500 px-6 py-3 rounded-full text-black font-bold">
           {toast}
         </div>
       )}
