@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Users, Utensils } from "lucide-react";
 import { FaLeaf } from "react-icons/fa";
 import {
   motion,
   useScroll,
   useTransform,
-  Variants,
+  type Variants,
   useMotionValue,
   useSpring,
   useMotionTemplate,
@@ -20,7 +20,6 @@ export default function HeroSection({
 }) {
   const { scrollYProgress } = useScroll();
 
-  // MOUSE INTERACTION LOGIC
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
@@ -31,7 +30,6 @@ export default function HeroSection({
     mouseY.set(clientY);
   }
 
-  // SCROLL MICRO-INTERACTIONS
   const heroScale = useTransform(scrollYProgress, [0, 0.35], [1, 0.94]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0.25]);
   const textY = useTransform(scrollYProgress, [0, 0.35], [0, -80]);
@@ -87,9 +85,9 @@ export default function HeroSection({
     <section
       id="home"
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen w-full overflow-hidden bg-[#050505] text-white flex flex-col justify-start md:justify-center"
+      className="relative flex min-h-screen w-full flex-col justify-start overflow-x-hidden bg-[#050505] text-white md:justify-center"
     >
-      {/* ROYAL MANDALA ENTRY (Same as before) */}
+      {/* ROYAL MANDALA ENTRY */}
       <motion.div
         initial={{ opacity: 1, pointerEvents: "auto" }}
         animate={{ opacity: 0, pointerEvents: "none" }}
@@ -102,6 +100,7 @@ export default function HeroSection({
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className="absolute h-56 w-56 rounded-full border border-orange-300/50 shadow-[0_0_80px_rgba(251,146,60,0.35)] md:h-80 md:w-80"
         />
+
         <motion.div
           initial={{ scale: 1, rotate: 0, opacity: 1 }}
           animate={{ scale: 5, rotate: 120, opacity: 0 }}
@@ -110,6 +109,7 @@ export default function HeroSection({
         >
           <div className="absolute inset-4 rounded-full border border-yellow-200/40" />
           <div className="absolute inset-8 rounded-full border border-orange-400/40" />
+
           {[...Array(12)].map((_, i) => (
             <span
               key={i}
@@ -117,6 +117,7 @@ export default function HeroSection({
               style={{ transform: `rotate(${i * 30}deg) translateY(-90px)` }}
             />
           ))}
+
           <div className="z-10 text-center">
             <p
               className="text-4xl font-black text-orange-200 md:text-6xl"
@@ -128,9 +129,8 @@ export default function HeroSection({
         </motion.div>
       </motion.div>
 
-      {/* NEW: INTERACTIVE BACKGROUND EFFECTS */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Dynamic Mouse Glow */}
+      {/* BACKGROUND EFFECTS */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <motion.div
           className="absolute inset-0 z-10 opacity-40"
           style={{
@@ -144,17 +144,16 @@ export default function HeroSection({
           }}
         />
 
-        {/* Slow Rotating Mandala Texture */}
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute -left-[10%] -top-[10%] opacity-[0.04]"
+          className="absolute -left-[35%] -top-[20%] opacity-[0.04] sm:-left-[10%]"
         >
           <svg
             width="800"
             height="800"
             viewBox="0 0 100 100"
-            className="text-orange-400 fill-none stroke-current"
+            className="fill-none stroke-current text-orange-400"
           >
             <circle
               cx="50"
@@ -177,7 +176,6 @@ export default function HeroSection({
           </svg>
         </motion.div>
 
-        {/* Subtle Grid Pattern */}
         <div
           className="absolute inset-0 opacity-[0.08]"
           style={{
@@ -186,21 +184,20 @@ export default function HeroSection({
           }}
         />
 
-        {/* Corner Glows */}
         <motion.div
           style={{ y: glowY }}
           animate={{ scale: [1, 1.1, 1], opacity: [0.14, 0.3, 0.14] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[-20%] top-[10%] h-[500px] w-[500px] rounded-full bg-orange-600/10 blur-[120px]"
+          className="absolute left-[-45%] top-[10%] h-[420px] w-[420px] rounded-full bg-orange-600/10 blur-[120px] sm:left-[-20%] sm:h-[500px] sm:w-[500px]"
         />
       </div>
 
       {/* MAIN HERO CONTENT */}
       <motion.div
         style={{ scale: heroScale, opacity: heroOpacity }}
-        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-5 pt-28 pb-14 sm:px-6 md:grid-cols-2 md:py-20 lg:gap-20"
+        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 overflow-hidden px-4 pt-28 pb-14 sm:px-6 md:grid-cols-2 md:py-20 lg:gap-16"
       >
-        {/* VIDEO SIDE (kept your original structure) */}
+        {/* VIDEO SIDE */}
         <motion.div
           style={{
             y: videoY,
@@ -211,11 +208,10 @@ export default function HeroSection({
           variants={videoReveal}
           initial="hidden"
           animate="visible"
-          className="relative order-1 md:order-2 w-full max-w-[430px] mx-auto md:max-w-none flex flex-col gap-5"
+          className="relative order-1 mx-auto flex w-full max-w-full flex-col gap-5 overflow-hidden md:order-2"
         >
-          <div className="relative group">
-            {/* Hover Glow Effect */}
-            <div className="absolute -inset-1 rounded-[2.6rem] bg-gradient-to-r from-orange-600 to-yellow-400 opacity-20 blur transition duration-500 group-hover:opacity-40" />
+          <div className="relative group w-full">
+            <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-orange-600 to-yellow-400 opacity-20 blur transition duration-500 group-hover:opacity-40" />
 
             <div className="relative z-10 overflow-hidden rounded-[1.8rem] border border-white/10 bg-neutral-900 md:rounded-[2.5rem]">
               <video
@@ -224,16 +220,17 @@ export default function HeroSection({
                 loop
                 muted
                 playsInline
-                className="h-[300px] w-full object-cover sm:h-[360px] md:h-[430px] lg:h-[440px]"
+                className="h-[240px] w-full object-cover sm:h-[320px] md:h-[430px] lg:h-[440px]"
               />
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-              <div className="absolute top-4 left-4 flex items-center gap-3 rounded-full border border-white/10 bg-black/70 px-4 py-2 backdrop-blur-xl">
+              <div className="absolute left-3 top-3 flex items-center gap-2 rounded-full border border-white/10 bg-black/70 px-3 py-2 backdrop-blur-xl sm:left-4 sm:top-4 sm:gap-3 sm:px-4">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest">
+                <span className="text-[9px] font-bold uppercase tracking-widest sm:text-[10px]">
                   Now Serving
                 </span>
               </div>
@@ -245,14 +242,15 @@ export default function HeroSection({
             className="relative z-20 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-md md:p-6"
             whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.06)" }}
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg md:h-14 md:w-14">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg md:h-14 md:w-14">
               <Users className="text-white" size={24} />
             </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-orange-400 font-bold">
+
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">
                 Perfect for
               </p>
-              <p className="font-bold text-white text-base md:text-xl">
+              <p className="text-base font-bold text-white md:text-xl">
                 Family Celebrations
               </p>
             </div>
@@ -265,30 +263,30 @@ export default function HeroSection({
           variants={container}
           initial="hidden"
           animate="visible"
-          className="relative order-2 z-20 text-center md:order-1 md:text-left"
+          className="relative order-2 z-20 max-w-full text-center md:order-1 md:text-left"
         >
           <motion.div
             style={{ y: watermarkY, opacity: watermarkOpacity }}
-            className="pointer-events-none absolute -top-12 left-1/2 -z-10 -translate-x-1/2 text-8xl font-black text-orange-200 md:left-0 md:-translate-x-0 md:text-9xl opacity-10"
+            className="pointer-events-none absolute -top-10 left-1/2 -z-10 -translate-x-1/2 text-7xl font-black text-orange-200 opacity-10 sm:text-8xl md:left-0 md:-translate-x-0 md:text-9xl"
           >
             પધારો
           </motion.div>
 
           <motion.div
             variants={fadeUp}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-orange-400"
+            className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-orange-400"
           >
-            <FaLeaf className="animate-pulse text-orange-500" />
+            <FaLeaf className="shrink-0 animate-pulse text-orange-500" />
             Pure Veg • Vadodara
           </motion.div>
 
           <motion.h1
             variants={fadeUp}
-            className="text-5xl font-black leading-[1.1] tracking-tight sm:text-7xl lg:text-8xl"
+            className="text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             <span className="block text-neutral-200">Taste the</span>
-            <span className="block italic font-serif text-neutral-100">
+            <span className="block font-serif italic text-neutral-100">
               soul of
             </span>
             <span className="block bg-gradient-to-r from-orange-500 via-yellow-200 to-orange-600 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer-live">
@@ -312,13 +310,14 @@ export default function HeroSection({
           >
             <button
               onClick={() => setActiveNav("#menu")}
-              className="flex items-center justify-center gap-3 rounded-full bg-orange-600 px-10 py-4 font-bold text-white transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-orange-900/20"
+              className="flex items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 font-bold text-white shadow-xl shadow-orange-900/20 transition-transform hover:scale-105 active:scale-95 sm:px-10"
             >
               Explore Menu <Utensils size={18} />
             </button>
+
             <button
               onClick={() => setActiveNav("#booking")}
-              className="rounded-full border border-white/10 bg-white/5 px-10 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/10"
+              className="rounded-full border border-white/10 bg-white/5 px-8 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 sm:px-10"
             >
               Reserve Table
             </button>
@@ -327,11 +326,18 @@ export default function HeroSection({
       </motion.div>
 
       <style>{`
+        html, body {
+          overflow-x: hidden;
+        }
+
         @keyframes shimmer-live {
           0% { background-position: 200% center; }
           100% { background-position: -200% center; }
         }
-        .animate-shimmer-live { animation: shimmer-live 4s linear infinite; }
+
+        .animate-shimmer-live {
+          animation: shimmer-live 4s linear infinite;
+        }
       `}</style>
     </section>
   );
