@@ -1,4 +1,5 @@
 import { Clock3, MapPin, Phone } from "lucide-react";
+import { motion } from "framer-motion";
 import type { FormEvent } from "react";
 import {
   mapsLink,
@@ -37,130 +38,173 @@ export default function BookingSection({
 }) {
   return (
     <section id="booking" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-      <div className="grid overflow-visible rounded-[2rem] border border-white/10 bg-white/5 md:grid-cols-2">
-        <div className="bg-gradient-to-br from-orange-500 to-yellow-400 p-8 text-black sm:p-10">
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.96 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: false, amount: 0.2 }}
+        className="grid overflow-visible rounded-[2rem] border border-white/10 bg-white/5 md:grid-cols-2"
+      >
+        {/* LEFT PANEL */}
+        <motion.div
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          className="bg-gradient-to-br from-orange-500 to-yellow-400 p-8 text-black sm:p-10"
+        >
           <p className="text-sm font-bold uppercase tracking-[0.3em]">
             Booking
           </p>
+
           <h2 className="mt-4 text-4xl font-black">
             Reserve your dining experience
           </h2>
+
           <p className="mt-4 text-black/80">
             Clean and simple booking with native date and time selection.
           </p>
 
           <div className="mt-8 space-y-5">
-            <div className="flex items-center gap-3">
+            <motion.div
+              whileHover={{ x: 6 }}
+              className="flex items-center gap-3"
+            >
               <Clock3 className="h-5 w-5" />
               <span>Open daily: 11:00 AM – 11:00 PM</span>
-            </div>
-            <div className="flex items-center gap-3">
+            </motion.div>
+
+            <motion.div
+              whileHover={{ x: 6 }}
+              className="flex items-center gap-3"
+            >
               <Phone className="h-5 w-5" />
               <span>{restaurantPhone}</span>
-            </div>
-            <div className="flex items-center gap-3">
+            </motion.div>
+
+            <motion.div
+              whileHover={{ x: 6 }}
+              className="flex items-center gap-3"
+            >
               <MapPin className="h-5 w-5" />
               <span>{restaurantAddress}</span>
-            </div>
+            </motion.div>
           </div>
 
-          <a
+          <motion.a
             href={mapsLink}
             target="_blank"
             rel="noreferrer"
-            className="mt-8 inline-flex rounded-full bg-black px-5 py-3 font-semibold text-white transition hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 inline-flex rounded-full bg-black px-5 py-3 font-semibold text-white transition"
           >
             Open Location
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
-        <form onSubmit={onSubmit} className="space-y-5 p-8 sm:p-10">
-          <div>
-            <label className="mb-2 block text-sm text-white/70">
-              Full Name
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={bookingName}
-              onChange={(e) => setBookingName(e.target.value)}
-              className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none focus:border-orange-400"
-              required
-            />
-          </div>
+        {/* FORM PANEL */}
+        <motion.form
+          onSubmit={onSubmit}
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          className="relative space-y-5 p-8 sm:p-10"
+        >
+          {/* Glow effect */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-orange-500/20 blur-3xl" />
 
-          <div>
-            <label className="mb-2 block text-sm text-white/70">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              placeholder="Enter your phone number"
-              value={bookingPhone}
-              onChange={(e) => setBookingPhone(e.target.value)}
-              className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none focus:border-orange-400"
-              required
-            />
-          </div>
+          {/* NAME */}
+          <InputField
+            label="Full Name"
+            value={bookingName}
+            onChange={setBookingName}
+            placeholder="Enter your name"
+          />
 
+          {/* PHONE */}
+          <InputField
+            label="Phone Number"
+            value={bookingPhone}
+            onChange={setBookingPhone}
+            placeholder="Enter your phone number"
+          />
+
+          {/* ROW */}
           <div className="grid gap-5 md:grid-cols-3">
-            <div>
-              <label className="mb-2 block text-sm text-white/70">Guests</label>
-              <input
-                type="number"
-                min="1"
-                max="50"
-                value={bookingGuests}
-                onChange={(e) => setBookingGuests(e.target.value)}
-                className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none focus:border-orange-400"
-                required
-              />
-            </div>
+            <InputField
+              label="Guests"
+              value={bookingGuests}
+              onChange={setBookingGuests}
+              type="number"
+            />
 
-            <div>
-              <label className="mb-2 block text-sm text-white/70">Date</label>
-              <input
-                type="date"
-                value={bookingDate}
-                onChange={(e) => setBookingDate(e.target.value)}
-                min={new Date().toISOString().split("T")[0]}
-                className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none focus:border-orange-400"
-                required
-              />
-            </div>
+            <InputField
+              label="Date"
+              value={bookingDate}
+              onChange={setBookingDate}
+              type="date"
+            />
 
-            <div>
-              <label className="mb-2 block text-sm text-white/70">Time</label>
-              <input
-                type="time"
-                value={bookingTime}
-                onChange={(e) => setBookingTime(e.target.value)}
-                className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none focus:border-orange-400"
-                required
-              />
-            </div>
+            <InputField
+              label="Time"
+              value={bookingTime}
+              onChange={setBookingTime}
+              type="time"
+            />
           </div>
 
+          {/* TEXTAREA */}
           <div>
             <label className="mb-2 block text-sm text-white/70">
               Special Request
             </label>
+
             <textarea
-              placeholder="Birthday, anniversary, large group, window seat..."
               value={specialRequest}
               onChange={(e) => setSpecialRequest(e.target.value)}
-              className="min-h-[110px] w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-white outline-none focus:border-orange-400"
+              className="min-h-[110px] w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-white outline-none transition focus:border-orange-400 focus:shadow-[0_0_18px_rgba(251,146,60,0.25)]"
             />
           </div>
 
-          <button
+          {/* BUTTON */}
+          <motion.button
             type="submit"
-            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-6 py-4 font-bold text-black transition hover:scale-[1.02]"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-6 py-4 font-bold text-black"
           >
             Confirm Booking
-          </button>
-        </form>
-      </div>
+          </motion.button>
+        </motion.form>
+      </motion.div>
     </section>
+  );
+}
+
+/* 🔥 REUSABLE INPUT */
+function InputField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+}: any) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45 }}
+    >
+      <label className="mb-2 block text-sm text-white/70">{label}</label>
+
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="h-14 w-full rounded-2xl border border-white/10 bg-black/30 px-5 text-white outline-none transition focus:border-orange-400 focus:shadow-[0_0_18px_rgba(251,146,60,0.25)]"
+        required
+      />
+    </motion.div>
   );
 }

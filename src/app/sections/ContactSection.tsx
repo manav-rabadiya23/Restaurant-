@@ -1,105 +1,102 @@
-import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="bg-[#080808] px-4 py-20 text-white sm:px-6"
+      className="relative bg-[#080808] px-4 py-20 text-white sm:px-6 overflow-hidden"
     >
+      {/* Background glow */}
+      <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-orange-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute right-0 bottom-20 h-72 w-72 rounded-full bg-yellow-400/10 blur-[120px]" />
+
       <div className="mx-auto max-w-7xl">
         {/* HEADER */}
-        <div className="mb-12 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="mb-12 text-center"
+        >
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-orange-400">
             Contact Us
           </p>
+
           <h2 className="mt-3 text-4xl font-black sm:text-5xl">
             Visit Gujarati Rasoi
           </h2>
+
           <p className="mx-auto mt-4 max-w-2xl text-white/60">
             Have questions, want to reserve a table, or need help with an order?
             We are always happy to serve you.
           </p>
-        </div>
+        </motion.div>
 
         {/* TOP CARDS */}
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* LOCATION */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <MapPin className="mb-4 h-6 w-6 text-orange-400" />
-            <h3 className="text-xl font-bold">Restaurant Location</h3>
-            <p className="mt-2 text-sm text-white/60">
-              Sayajigunj, Vadodara, Gujarat 390005
-            </p>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Sayajigunj+Vadodara+Gujarat+390005"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block text-orange-400 hover:underline"
-            >
-              Get Directions
-            </a>
-          </div>
+          <ContactCard
+            icon={<MapPin />}
+            title="Restaurant Location"
+            desc="Sayajigunj, Vadodara, Gujarat 390005"
+            link="https://www.google.com/maps/search/?api=1&query=Sayajigunj+Vadodara+Gujarat+390005"
+            linkText="Get Directions"
+          />
 
-          {/* PHONE */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <Phone className="mb-4 h-6 w-6 text-orange-400" />
-            <h3 className="text-xl font-bold">Call Us</h3>
-            <p className="mt-2 text-sm text-white/60">
-              For bookings & order support
-            </p>
-            <a
-              href="tel:+919876543210"
-              className="mt-4 block text-lg font-bold text-orange-400"
-            >
-              +91 98765 43210
-            </a>
-          </div>
+          <ContactCard
+            icon={<Phone />}
+            title="Call Us"
+            desc="For bookings & order support"
+            link="tel:+919876543210"
+            linkText="+91 98765 43210"
+          />
 
-          {/* EMAIL */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <Mail className="mb-4 h-6 w-6 text-orange-400" />
-            <h3 className="text-xl font-bold">Email Us</h3>
-            <p className="mt-2 text-sm text-white/60">
-              For feedback & inquiries
-            </p>
-            <a
-              href="mailto:info@gujaratirasoi.com"
-              className="mt-4 block text-lg font-bold text-orange-400"
-            >
-              info@gujaratirasoi.com
-            </a>
-          </div>
+          <ContactCard
+            icon={<Mail />}
+            title="Email Us"
+            desc="For feedback & inquiries"
+            link="mailto:info@gujaratirasoi.com"
+            linkText="info@gujaratirasoi.com"
+          />
         </div>
 
         {/* MAP + INFO */}
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          {/* LEFT → WHY CONTACT */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 sm:p-7">
+          {/* LEFT */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: false }}
+            className="rounded-[2rem] border border-white/10 bg-white/5 p-6 sm:p-7"
+          >
             <h3 className="text-2xl font-bold tracking-tight">
               Why Contact Us?
             </h3>
 
-            <p className="mt-3 text-sm leading-relaxed text-white/60">
+            <p className="mt-3 text-sm text-white/60">
               We’re here to help you with reservations, order support, and more.
             </p>
 
             <ul className="mt-6 space-y-3 text-sm text-white/70">
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400" />
-                Table reservations & bookings
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400" />
-                Order tracking & support
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400" />
-                Catering & bulk orders
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400" />
-                Feedback & suggestions
-              </li>
+              {[
+                "Table reservations & bookings",
+                "Order tracking & support",
+                "Catering & bulk orders",
+                "Feedback & suggestions",
+              ].map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-start gap-2"
+                >
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400" />
+                  {item}
+                </motion.li>
+              ))}
             </ul>
 
             <div className="my-6 h-px w-full bg-white/10" />
@@ -110,20 +107,57 @@ export default function ContactSection() {
                 Mon - Sun: 11:00 AM – 11:00 PM
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          {/* RIGHT → MAP */}
-          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-3">
+          {/* RIGHT MAP */}
+          <motion.div
+            initial={{ opacity: 0, x: 40, scale: 0.96 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: false }}
+            className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-3"
+          >
             <iframe
               title="Gujarati Rasoi location"
               src="https://www.google.com/maps?q=Sayajigunj+Vadodara+Gujarat+390005&output=embed"
               className="h-[320px] w-full rounded-[1.5rem] border-0 sm:h-[420px]"
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* 🔥 REUSABLE CARD */
+function ContactCard({ icon, title, desc, link, linkText }: any) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: false }}
+      whileHover={{ y: -8, scale: 1.03 }}
+      className="group relative rounded-[2rem] border border-white/10 bg-white/5 p-6 transition hover:border-orange-400/40"
+    >
+      <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-orange-500 to-yellow-400 opacity-0 blur transition duration-500 group-hover:opacity-20" />
+
+      <div className="relative z-10">
+        <div className="mb-4 text-orange-400">{icon}</div>
+
+        <h3 className="text-xl font-bold">{title}</h3>
+        <p className="mt-2 text-sm text-white/60">{desc}</p>
+
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 block font-semibold text-orange-400 hover:underline"
+        >
+          {linkText}
+        </a>
+      </div>
+    </motion.div>
   );
 }

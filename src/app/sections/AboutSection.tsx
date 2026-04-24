@@ -1,73 +1,171 @@
-import { FaUtensils } from "react-icons/fa";
-import { GiMeal } from "react-icons/gi";
+import { FaUtensils, FaLeaf } from "react-icons/fa";
+import { GiMeal, GiCook } from "react-icons/gi";
+import { motion } from "framer-motion";
 import { restaurantName } from "../data/restaurantData";
 
 export default function AboutSection() {
   return (
     <section
       id="about"
-      className="mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-6 md:grid-cols-2 items-center overflow-hidden"
+      className="relative mx-auto grid max-w-7xl items-center gap-14 overflow-hidden px-4 py-24 sm:px-6 md:grid-cols-2"
     >
-      {/* Image with Floating Animation */}
-      <div className="relative group animate-in fade-in slide-in-from-left-10 duration-1000">
-        <div className="absolute -inset-4 bg-orange-500/10 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-        <img
+      {/* BACKGROUND GLOW */}
+      <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-orange-500/10 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-10 right-0 h-72 w-72 rounded-full bg-yellow-500/10 blur-[100px]" />
+
+      {/* IMAGE SECTION */}
+      <motion.div
+        initial={{ opacity: 0, x: -60, scale: 0.95 }}
+        whileInView={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: false, amount: 0.25 }}
+        className="relative group"
+      >
+        <div className="absolute -inset-4 rounded-[2.5rem] bg-orange-500/10 blur-2xl opacity-0 transition duration-700 group-hover:opacity-100" />
+
+        <motion.img
           src="/food.jpg"
-          alt="Restaurant interior"
-          className="relative h-full w-full rounded-[2.5rem] object-cover shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.02]"
+          alt="Delicious traditional food"
+          whileHover={{ scale: 1.03 }}
+          transition={{ duration: 0.5 }}
+          className="relative h-[360px] w-full rounded-[2.5rem] border border-white/10 object-cover shadow-2xl sm:h-[420px]"
         />
-        {/* Decorative Badge */}
-        <div className="absolute -bottom-6 -right-6 bg-orange-500 text-black px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl animate-bounce-slow">
+
+        {/* Floating image */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ y: [0, -10, 0] }}
+          transition={{
+            opacity: { duration: 0.6 },
+            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+          }}
+          viewport={{ once: true }}
+          className="absolute -bottom-10 left-6 hidden sm:block"
+        >
+          <img
+            src="/restaurant.jpg"
+            alt="Restaurant ambience"
+            className="h-32 w-44 rounded-2xl border-4 border-black object-cover shadow-xl"
+          />
+        </motion.div>
+
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="absolute -bottom-6 -right-2 rounded-xl bg-orange-500 px-6 py-3 text-xs font-bold text-black shadow-lg sm:-right-4"
+        >
           Est. 2026
+        </motion.div>
+      </motion.div>
+
+      {/* CONTENT SECTION */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: false, amount: 0.25 }}
+      >
+        <div className="mb-6">
+          <p className="mb-3 flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-orange-400">
+            <span className="h-px w-8 bg-orange-400"></span>
+            About Us
+          </p>
+
+          <h2 className="text-4xl font-black uppercase italic leading-tight md:text-5xl">
+            Tradition meets <br />
+            <span className="bg-gradient-to-r from-orange-400 to-yellow-300 bg-clip-text text-transparent">
+              modern taste
+            </span>
+          </h2>
         </div>
-      </div>
 
-      <div className="flex flex-col justify-center animate-in fade-in slide-in-from-right-10 duration-1000 delay-200">
-        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-orange-400 mb-4 flex items-center gap-4">
-          <div className="h-px w-8 bg-orange-400" />
-          The Essence
+        <p className="text-lg leading-relaxed text-white/60">
+          <span className="font-semibold text-white">{restaurantName}</span> is
+          a premium dining destination in Vadodara, bringing together authentic
+          Indian flavors with a modern dining experience.
         </p>
 
-        <h2 className="text-4xl font-black md:text-6xl uppercase italic tracking-tighter leading-none">
-          Tradition served <br />
-          <span className="text-shimmer">with elegance</span>
-        </h2>
-
-        <p className="mt-8 text-lg leading-relaxed text-white/50 font-medium">
-          {restaurantName} blends authentic regional recipes with a refined
-          dining atmosphere in Vadodara. From comfort food to festive thalis,
-          the focus is traditional taste with{" "}
-          <span className="text-white">polished presentation</span>.
+        <p className="mt-4 leading-relaxed text-white/50">
+          From traditional Gujarati dishes to carefully crafted meals, every
+          plate is prepared using fresh ingredients, rich spices, and attention
+          to detail.
         </p>
 
+        {/* FEATURES */}
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          {/* Live Feature Card 1 */}
-          <div className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 transition-all duration-500 hover:border-orange-500/50 hover:bg-white/[0.08]">
-            <div className="mb-4 text-orange-400 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
-              <FaUtensils size={28} />
-            </div>
-            <h3 className="font-black uppercase tracking-widest text-xs text-white mb-2">
-              Traditional Recipes
-            </h3>
-            <p className="text-sm text-white/40 leading-relaxed font-medium">
-              Home-style flavours inspired by authentic Gujarati kitchens.
-            </p>
-          </div>
-
-          {/* Live Feature Card 2 */}
-          <div className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 transition-all duration-500 hover:border-orange-500/50 hover:bg-white/[0.08]">
-            <div className="mb-4 text-orange-400 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
-              <GiMeal size={28} />
-            </div>
-            <h3 className="font-black uppercase tracking-widest text-xs text-white mb-2">
-              Premium Experience
-            </h3>
-            <p className="text-sm text-white/40 leading-relaxed font-medium">
-              Clean interiors, modern presentation and customer-first service.
-            </p>
-          </div>
+          <Feature
+            icon={<FaUtensils size={26} />}
+            title="Authentic Taste"
+            desc="Traditional recipes inspired by real home kitchens."
+          />
+          <Feature
+            icon={<GiMeal size={28} />}
+            title="Premium Dining"
+            desc="Elegant ambience with warm Gujarati hospitality."
+          />
+          <Feature
+            icon={<FaLeaf size={24} />}
+            title="Fresh Ingredients"
+            desc="High-quality ingredients used in every dish."
+          />
+          <Feature
+            icon={<GiCook size={28} />}
+            title="Expert Chefs"
+            desc="Prepared by experienced chefs with passion."
+          />
         </div>
-      </div>
+
+        {/* STATS */}
+        <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-6">
+          <Stat value="50+" label="Dishes" />
+          <Stat value="100%" label="Fresh" />
+          <Stat value="4.8★" label="Rating" />
+        </div>
+      </motion.div>
     </section>
+  );
+}
+
+function Feature({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 35, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: false, amount: 0.25 }}
+      whileHover={{ y: -6, scale: 1.03 }}
+      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/50 hover:bg-orange-500/10"
+    >
+      <div className="mb-3 text-orange-400">{icon}</div>
+      <h3 className="mb-1 text-sm font-bold uppercase">{title}</h3>
+      <p className="text-xs text-white/50">{desc}</p>
+    </motion.div>
+  );
+}
+
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45 }}
+      viewport={{ once: false, amount: 0.3 }}
+      whileHover={{ scale: 1.08 }}
+    >
+      <h4 className="text-xl font-bold text-orange-400">{value}</h4>
+      <p className="text-xs uppercase text-white/40">{label}</p>
+    </motion.div>
   );
 }
