@@ -32,7 +32,6 @@ export default function HeroSection({
   }
 
   const heroScale = useTransform(scrollYProgress, [0, 0.35], [1, 0.94]);
-
   const textY = useTransform(scrollYProgress, [0, 0.35], [0, -80]);
   const videoY = useTransform(scrollYProgress, [0, 0.35], [0, 80]);
   const watermarkY = useTransform(scrollYProgress, [0, 0.35], [0, -45]);
@@ -46,10 +45,20 @@ export default function HeroSection({
   const videoRotateY = useTransform(scrollYProgress, [0, 0.35], [0, -8]);
   const glowY = useTransform(scrollYProgress, [0, 0.35], [0, 90]);
 
-  const bgRotateX = useTransform(springY, [0, 900], [6, -6]);
-  const bgRotateY = useTransform(springX, [0, 1600], [-8, 8]);
   const floorRotateY = useTransform(springX, [0, 1600], [-5, 5]);
   const floorY = useTransform(springY, [0, 900], [20, -20]);
+
+  const mouseGlow = useMotionTemplate`
+    radial-gradient(
+      520px circle at ${springX}px ${springY}px,
+      rgba(251,146,60,0.20),
+      rgba(245,158,11,0.10) 28%,
+      transparent 70%
+    )
+  `;
+
+  const glowX = useTransform(springX, [0, 1600], [-80, 80]);
+  const glowMoveY = useTransform(springY, [0, 900], [-50, 50]);
 
   const container: Variants = {
     hidden: {},
@@ -64,7 +73,7 @@ export default function HeroSection({
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.85 },
     },
   };
 
@@ -84,7 +93,7 @@ export default function HeroSection({
       rotateX: 0,
       rotateY: 0,
       filter: "blur(0px)",
-      transition: { delay: 1.9, duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+      transition: { delay: 1.9, duration: 1.1 },
     },
   };
 
@@ -94,294 +103,61 @@ export default function HeroSection({
       onMouseMove={handleMouseMove}
       className="relative flex min-h-screen w-full flex-col justify-start overflow-x-hidden bg-[#050505] text-white md:justify-center"
     >
-      {/* ROYAL MANDALA ENTRY */}
-      <motion.div
-        initial={{ opacity: 1, pointerEvents: "auto" }}
-        animate={{ opacity: 0, pointerEvents: "none" }}
-        transition={{ delay: 2.1, duration: 0.9, ease: "easeOut" }}
-        className="fixed inset-0 z-[50] flex items-center justify-center bg-[#120706]"
-      >
-        <motion.div
-          initial={{ scale: 0.75, rotate: 0, opacity: 0 }}
-          animate={{ scale: 1, rotate: 180, opacity: 1 }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute h-56 w-56 rounded-full border border-orange-300/50 shadow-[0_0_80px_rgba(251,146,60,0.35)] md:h-80 md:w-80"
-        />
-
-        <motion.div
-          initial={{ scale: 1, rotate: 0, opacity: 1 }}
-          animate={{ scale: 5, rotate: 120, opacity: 0 }}
-          transition={{ delay: 0.8, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex h-48 w-48 items-center justify-center rounded-full border-2 border-orange-300/70 md:h-72 md:w-72"
-        >
-          <div className="absolute inset-4 rounded-full border border-yellow-200/40" />
-          <div className="absolute inset-8 rounded-full border border-orange-400/40" />
-
-          {[...Array(12)].map((_, i) => (
-            <span
-              key={i}
-              className="absolute h-3 w-3 rounded-full bg-orange-300"
-              style={{ transform: `rotate(${i * 30}deg) translateY(-90px)` }}
-            />
-          ))}
-
-          <div className="z-10 text-center">
-            <p
-              className="text-4xl font-black text-orange-200 md:text-6xl"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              પધારો
-            </p>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* BACKGROUND EFFECTS */}
+      {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <motion.div
           className="absolute inset-0 z-10 opacity-70"
-          style={{
-            background: useMotionTemplate`
-              radial-gradient(
-                520px circle at ${springX}px ${springY}px,
-                rgba(251, 146, 60, 0.20),
-                rgba(245, 158, 11, 0.10) 28%,
-                transparent 70%
-              )
-            `,
-          }}
+          style={{ background: mouseGlow }}
         />
 
-        {/* LUXURY RESTAURANT 3D BACKGROUND */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            perspective: "1400px",
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.16),transparent_45%),linear-gradient(180deg,#120706_0%,#050505_65%)]" />
-
+        {/* LIGHTS */}
+        {[...Array(5)].map((_, i) => (
           <motion.div
-            style={{
-              rotateX: bgRotateX,
-              rotateY: bgRotateY,
-              transformPerspective: 1400,
-            }}
-            className="absolute inset-0"
+            key={i}
+            animate={{ opacity: [0.4, 1, 0.4], y: [0, 6, 0] }}
+            transition={{ duration: 3 + i, repeat: Infinity }}
+            className="absolute top-0"
+            style={{ left: `${10 + i * 18}%` }}
           >
-            {[...Array(4)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{ y: [0, -8, 0] }}
-                transition={{
-                  duration: 5 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute rounded-t-full border border-orange-300/20 bg-gradient-to-b from-orange-500/10 via-black/20 to-transparent shadow-[0_0_80px_rgba(251,146,60,0.12)]"
-                style={{
-                  width: `${260 + i * 110}px`,
-                  height: `${420 + i * 90}px`,
-                  left: `${4 + i * 18}%`,
-                  top: `${12 - i * 3}%`,
-                  transform: `translateZ(${120 - i * 35}px)`,
-                }}
-              />
-            ))}
+            <div className="mx-auto h-24 w-px bg-gradient-to-b from-orange-200/40 to-transparent" />
+            <div className="h-3 w-3 rounded-full bg-orange-300 shadow-[0_0_25px_rgba(251,191,36,0.9)]" />
           </motion.div>
+        ))}
 
-          {[...Array(7)].map((_, i) => (
-            <motion.div
-              key={`light-${i}`}
-              animate={{ opacity: [0.45, 1, 0.45], y: [0, 6, 0] }}
-              transition={{
-                duration: 2.8 + i * 0.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-0"
-              style={{
-                left: `${8 + i * 14}%`,
-                transform: `translateZ(${160 - i * 12}px)`,
-              }}
-            >
-              <div className="mx-auto h-28 w-px bg-gradient-to-b from-orange-200/40 to-transparent" />
-              <div className="h-4 w-4 rounded-full bg-orange-300 shadow-[0_0_35px_rgba(251,191,36,0.9)]" />
-              <div className="mx-auto mt-1 h-16 w-16 rounded-full bg-orange-300/20 blur-2xl" />
-            </motion.div>
-          ))}
-
-          <motion.div
-            style={{
-              rotateX: 65,
-              rotateY: floorRotateY,
-              y: floorY,
-            }}
-            className="absolute bottom-[-22%] left-1/2 h-[420px] w-[900px] -translate-x-1/2 rounded-full border border-orange-300/15 bg-gradient-to-r from-transparent via-orange-500/10 to-transparent blur-sm"
-          />
-
-          {[...Array(7)].map((_, i) => (
-            <motion.div
-              key={`floor-line-${i}`}
-              animate={{ opacity: [0.08, 0.22, 0.08] }}
-              transition={{
-                duration: 4 + i * 0.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute bottom-[4%] left-1/2 h-px w-[900px] -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-300/30 to-transparent"
-              style={{
-                transform: `translateX(-50%) translateZ(${40 - i * 8}px) rotateX(68deg) translateY(${i * 38}px)`,
-              }}
-            />
-          ))}
-
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={`steam-${i}`}
-              animate={{
-                y: [80, -120],
-                x: [0, i % 2 === 0 ? 30 : -30],
-                opacity: [0, 0.22, 0],
-                scale: [0.7, 1.4],
-              }}
-              transition={{
-                duration: 7 + i,
-                repeat: Infinity,
-                delay: i * 0.8,
-                ease: "easeInOut",
-              }}
-              className="absolute bottom-[8%] h-40 w-10 rounded-full bg-orange-200/20 blur-2xl"
-              style={{
-                left: `${28 + i * 10}%`,
-              }}
-            />
-          ))}
-        </div>
-
+        {/* FLOOR */}
         <motion.div
-          style={{
-            x: useTransform(springX, [0, 1600], [-80, 80]),
-            y: useTransform(springY, [0, 900], [-50, 50]),
-          }}
-          animate={{
-            scale: [1, 1.08, 1],
-            rotate: [0, 4, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[-18%] top-[8%] h-[420px] w-[850px] rounded-full bg-gradient-to-r from-orange-600/18 via-yellow-400/8 to-transparent blur-[110px]"
+          style={{ rotateX: 65, rotateY: floorRotateY, y: floorY }}
+          className="absolute bottom-[-20%] left-1/2 h-[400px] w-[900px] -translate-x-1/2 rounded-full border border-orange-300/10 bg-gradient-to-r from-transparent via-orange-500/10 to-transparent blur-sm"
         />
 
+        {/* GLOW */}
         <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute -left-[35%] -top-[20%] opacity-[0.04] sm:-left-[10%]"
-        >
-          <svg
-            width="800"
-            height="800"
-            viewBox="0 0 100 100"
-            className="fill-none stroke-current text-orange-400"
-          >
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              strokeWidth="0.1"
-              strokeDasharray="1 2"
-            />
-            <circle
-              cx="50"
-              cy="50"
-              r="35"
-              strokeWidth="0.1"
-              strokeDasharray="2 4"
-            />
-            <path
-              d="M50 5 L55 45 L95 50 L55 55 L50 95 L45 55 L5 50 L45 45 Z"
-              strokeWidth="0.1"
-            />
-          </svg>
-        </motion.div>
-
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: `radial-gradient(#fb923c 0.5px, transparent 0.5px)`,
-            backgroundSize: "40px 40px",
-          }}
+          style={{ x: glowX, y: glowMoveY }}
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute left-[-30%] top-[10%] h-[400px] w-[600px] bg-orange-600/10 blur-[120px]"
         />
 
         <motion.div
           style={{ y: glowY }}
-          animate={{ scale: [1, 1.1, 1], opacity: [0.14, 0.3, 0.14] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[-45%] top-[10%] h-[420px] w-[420px] rounded-full bg-orange-600/10 blur-[120px] sm:left-[-20%] sm:h-[500px] sm:w-[500px]"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.14, 0.24, 0.14] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute left-[-40%] top-[18%] h-[360px] w-[360px] rounded-full bg-orange-600/10 blur-[90px]"
         />
       </div>
 
-      {/* MAIN HERO CONTENT */}
+      {/* MAIN CONTENT */}
       <motion.div
-        style={{
-          scale: heroScale,
-          transformStyle: "preserve-3d",
-        }}
-        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 overflow-hidden px-4 pt-28 pb-14 sm:px-6 md:grid-cols-2 md:py-20 lg:gap-16"
+        style={{ scale: heroScale }}
+        className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 px-4 pt-28 pb-14 sm:px-6 md:grid-cols-2 md:py-20 lg:gap-16"
       >
-        <motion.div
-          style={{
-            y: videoY,
-            rotateX: videoRotateX,
-            rotateY: videoRotateY,
-            transformPerspective: 1200,
-          }}
-          variants={videoReveal}
-          initial="hidden"
-          animate="visible"
-          className="relative order-1 mx-auto flex w-full max-w-full flex-col gap-5 overflow-hidden md:order-2"
-        >
-          <div className="relative group w-full">
-            <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-orange-600 to-yellow-400 opacity-20 blur transition duration-500 group-hover:opacity-40" />
-
-            <div className="relative z-10 overflow-hidden rounded-[1.8rem] border border-white/10 bg-neutral-900 md:rounded-[2.5rem]">
-              <video
-                src="/edited-ready.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="h-[240px] w-full object-cover sm:h-[320px] md:h-[430px] lg:h-[440px]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-            </div>
-          </div>
-
-          <motion.div
-            className="relative z-20 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-md md:p-6"
-            whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.06)" }}
-          >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg md:h-14 md:w-14">
-              <Users className="text-white" size={24} />
-            </div>
-
-            <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">
-                Perfect for
-              </p>
-              <p className="text-base font-bold text-white md:text-xl">
-                Family Celebrations
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
-
+        {/* TEXT LEFT */}
         <motion.div
           style={{ y: textY }}
           variants={container}
           initial="hidden"
           animate="visible"
-          className="relative order-2 z-20 max-w-full text-center md:order-1 md:text-left"
+          className="relative order-1 z-20 max-w-full text-center md:order-1 md:text-left"
         >
           <motion.div
             style={{ y: watermarkY, opacity: watermarkOpacity }}
@@ -448,6 +224,53 @@ export default function HeroSection({
                 <CalendarCheck size={18} />
               </span>
             </motion.button>
+          </motion.div>
+        </motion.div>
+
+        {/* VIDEO RIGHT */}
+        <motion.div
+          style={{
+            y: videoY,
+            rotateX: videoRotateX,
+            rotateY: videoRotateY,
+          }}
+          variants={videoReveal}
+          initial="hidden"
+          animate="visible"
+          className="relative order-2 mx-auto flex w-full max-w-full flex-col gap-5 overflow-hidden md:order-2"
+        >
+          <div className="relative group w-full">
+            <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-orange-600 to-yellow-400 opacity-20 blur transition duration-500 group-hover:opacity-40" />
+
+            <div className="relative z-10 overflow-hidden rounded-[1.8rem] border border-white/10 bg-neutral-900 md:rounded-[2.5rem]">
+              <video
+                src="/edited-ready.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-[240px] w-full object-cover sm:h-[320px] md:h-[430px] lg:h-[440px]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+            </div>
+          </div>
+
+          <motion.div
+            className="relative z-20 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-md md:p-6"
+            whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.06)" }}
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg md:h-14 md:w-14">
+              <Users className="text-white" size={24} />
+            </div>
+
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">
+                Perfect for
+              </p>
+              <p className="text-base font-bold text-white md:text-xl">
+                Family Celebrations
+              </p>
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>
