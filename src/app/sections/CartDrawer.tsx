@@ -21,9 +21,15 @@ export default function CartDrawer({
   onClearCart: () => void;
   onPlaceOrder: (order: Order) => void;
 }) {
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [customerAddress, setCustomerAddress] = useState("");
+  const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const [customerName, setCustomerName] = useState(loggedInUser.name || "");
+  const [customerPhone, setCustomerPhone] = useState(loggedInUser.phone || "");
+  const [customerEmail, setCustomerEmail] = useState(loggedInUser.email || "");
+  const [customerAddress, setCustomerAddress] = useState(
+    loggedInUser.address || "",
+  );
+
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
 
   const getPriceNumber = (price: number | string) =>
@@ -41,7 +47,7 @@ export default function CartDrawer({
   const handleCheckout = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!customerName || !customerPhone || !customerAddress) {
+    if (!customerName || !customerPhone || !customerEmail || !customerAddress) {
       alert("Please fill all checkout details.");
       return;
     }
@@ -59,6 +65,7 @@ export default function CartDrawer({
       customer: {
         name: customerName,
         phone: customerPhone,
+        email: customerEmail,
         address: customerAddress,
         payment: paymentMethod,
       },
@@ -67,7 +74,7 @@ export default function CartDrawer({
         name: item.name,
         price: getPriceNumber(item.price),
         qty: item.quantity,
-        image: item.image, // ✅ THIS FIXES PROFILE IMAGE ISSUE
+        image: item.image,
       })),
       total,
     };
@@ -76,8 +83,10 @@ export default function CartDrawer({
 
     setCustomerName("");
     setCustomerPhone("");
+    setCustomerEmail("");
     setCustomerAddress("");
     setPaymentMethod("Cash on Delivery");
+
     onClearCart();
     onClose();
   };
@@ -217,6 +226,15 @@ export default function CartDrawer({
                       value={customerPhone}
                       onChange={(e) => setCustomerPhone(e.target.value)}
                       placeholder="Enter your phone number"
+                      className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
+                    />
+
+                    <input
+                      type="email"
+                      required
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
+                      placeholder="Enter your email"
                       className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
                     />
 

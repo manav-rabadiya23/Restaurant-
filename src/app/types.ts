@@ -31,6 +31,7 @@ export interface Order {
   customer: {
     name: string;
     phone: string;
+    email: string;
     address: string;
     payment: string;
   };

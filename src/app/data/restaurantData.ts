@@ -2,17 +2,17 @@ import type { MenuItem, NavItem, Review } from "../types";
 
 export const restaurantName = "Gujarati Rasoi";
 export const restaurantPhone = "+91 98765 43210";
-export const restaurantAddress =
-  "RC Dutt Road, Alkapuri, Vadodara, Gujarat 390007";
+export const restaurantAddress = "Sayajigunj, Vadodara, Gujarat 390005";
 export const mapsLink =
-  "https://www.google.com/maps/search/?api=1&query=RC+Dutt+Road+Alkapuri+Vadodara+390007";
+  "https://www.google.com/maps/search/?api=1&query=Sayajigunj+Vadodara+Gujarat+390005";
+
 export const zomatoLink = "#";
 export const swiggyLink = "#";
 
 export const menuItems: MenuItem[] = [
   {
     name: "Royal Gujarati Thali",
-    price: "₹299",
+    price: 299,
     rating: 4.9,
     badge: "Best Seller",
     category: "Thali",
@@ -21,7 +21,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Kathiyawadi Thali",
-    price: "₹349",
+    price: 349,
     rating: 4.8,
     badge: "Spicy Special",
     category: "Thali",
@@ -30,7 +30,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Mini Lunch Thali",
-    price: "₹199",
+    price: 199,
     rating: 4.6,
     badge: "Value Meal",
     category: "Thali",
@@ -39,7 +39,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Festive Premium Thali",
-    price: "₹399",
+    price: 399,
     rating: 4.9,
     badge: "Premium",
     category: "Thali",
@@ -48,7 +48,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Khaman Dhokla",
-    price: "₹99",
+    price: 99,
     rating: 4.8,
     badge: "Popular",
     category: "Farsan",
@@ -57,7 +57,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Patra",
-    price: "₹119",
+    price: 119,
     rating: 4.5,
     badge: "Traditional",
     category: "Farsan",
@@ -66,7 +66,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Lilva Kachori",
-    price: "₹129",
+    price: 129,
     rating: 4.7,
     badge: "Seasonal",
     category: "Farsan",
@@ -75,7 +75,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Samosa Chaat",
-    price: "₹139",
+    price: 139,
     rating: 4.6,
     badge: "Street Style",
     category: "Farsan",
@@ -84,7 +84,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Fafda Jalebi",
-    price: "₹149",
+    price: 149,
     rating: 4.9,
     badge: "Festival Special",
     category: "Breakfast",
@@ -93,7 +93,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Methi Thepla Breakfast",
-    price: "₹109",
+    price: 100,
     rating: 4.7,
     badge: "Healthy",
     category: "Breakfast",
@@ -102,7 +102,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Poha with Sev",
-    price: "₹89",
+    price: 80,
     rating: 4.5,
     badge: "Morning Favourite",
     category: "Breakfast",
@@ -111,7 +111,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Handvo Slice",
-    price: "₹139",
+    price: 130,
     rating: 4.6,
     badge: "Chef's Pick",
     category: "Breakfast",
@@ -120,7 +120,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Undhiyu",
-    price: "₹249",
+    price: 149,
     rating: 4.7,
     badge: "Seasonal",
     category: "Main Course",
@@ -129,7 +129,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Sev Tameta",
-    price: "₹179",
+    price: 149,
     rating: 4.7,
     badge: "House Favourite",
     category: "Main Course",
@@ -138,7 +138,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Khichdi Kadhi",
-    price: "₹189",
+    price: 180,
     rating: 4.8,
     badge: "Comfort Bowl",
     category: "Main Course",
@@ -147,7 +147,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Lasaniya Bataka",
-    price: "₹199",
+    price: 199,
     rating: 4.6,
     badge: "Spicy",
     category: "Main Course",
@@ -156,7 +156,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Thepla Platter",
-    price: "₹129",
+    price: 129,
     rating: 4.6,
     badge: "Healthy Choice",
     category: "Bread",
@@ -165,7 +165,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Bajra Rotla",
-    price: "₹79",
+    price: 79,
     rating: 4.5,
     badge: "Traditional",
     category: "Bread",
@@ -174,7 +174,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Phulka Basket",
-    price: "₹69",
+    price: 69,
     rating: 4.4,
     badge: "Everyday Favourite",
     category: "Bread",
@@ -183,7 +183,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Bhakri Trio",
-    price: "₹99",
+    price: 99,
     rating: 4.5,
     badge: "Rustic",
     category: "Bread",
@@ -192,7 +192,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Shrikhand",
-    price: "₹119",
+    price: 119,
     rating: 4.8,
     badge: "Sweet Favourite",
     category: "Dessert",
@@ -201,7 +201,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Basundi",
-    price: "₹139",
+    price: 139,
     rating: 4.7,
     badge: "Rich & Sweet",
     category: "Dessert",
@@ -210,7 +210,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Mohanthal",
-    price: "₹99",
+    price: 99,
     rating: 4.6,
     badge: "Traditional Mithai",
     category: "Dessert",
@@ -219,7 +219,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Gulab Jamun",
-    price: "₹89",
+    price: 89,
     rating: 4.7,
     badge: "Hot Seller",
     category: "Dessert",
@@ -228,7 +228,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Masala Chaas",
-    price: "₹49",
+    price: 49,
     rating: 4.8,
     badge: "Must Have",
     category: "Beverage",
@@ -237,7 +237,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Kesar Lassi",
-    price: "₹89",
+    price: 89,
     rating: 4.7,
     badge: "Cooling Drink",
     category: "Beverage",
@@ -246,7 +246,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Masala Tea",
-    price: "₹39",
+    price: 39,
     rating: 4.6,
     badge: "Daily Favourite",
     category: "Beverage",
@@ -255,7 +255,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: "Fresh Lime Soda",
-    price: "₹59",
+    price: 59,
     rating: 4.5,
     badge: "Refreshing",
     category: "Beverage",
@@ -296,8 +296,8 @@ export const galleryImages = [
   "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80",
   "/gallery-1.png",
   "/Undhiyu.png",
-  "/Masala Tea.png",
-  "/Fresh Lime Soda.png",
+  "/Masala-Tea.png",
+  "/Fresh-Lime-Soda.png",
   "/food.jpg",
 ];
 
