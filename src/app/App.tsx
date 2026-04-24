@@ -244,14 +244,16 @@ function App() {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <Header
-        activeNav={activeNav}
-        setActiveNav={handleNavigate}
-        onLogout={handleLogout}
-        onOpenCart={() => setIsCartOpen(true)}
-        cartCount={cartCount}
-        onProfileClick={() => setActiveScreen("profile")}
-      />
+      <div className="fixed left-0 top-0 z-[9999] w-full">
+        <Header
+          activeNav={activeNav}
+          setActiveNav={handleNavigate}
+          onLogout={handleLogout}
+          onOpenCart={() => setIsCartOpen(true)}
+          cartCount={cartCount}
+          onProfileClick={() => setActiveScreen("profile")}
+        />
+      </div>
 
       {activeScreen === "profile" ? (
         <ProfilePage
