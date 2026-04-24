@@ -26,7 +26,7 @@ export const menuItems: MenuItem[] = [
     badge: "Spicy Special",
     category: "Thali",
     desc: "Kathiyawadi thali with sev tameta, lasaniya bataka, bajra rotla and chaas.",
-    image: "/kathiyawadi -thali.png",
+    image: "/kathiyawadi-thali.png",
   },
   {
     name: "Mini Lunch Thali",
@@ -44,7 +44,7 @@ export const menuItems: MenuItem[] = [
     badge: "Premium",
     category: "Thali",
     desc: "Luxury festive thali with extra farsan, sweet dish, special sabzi and chaas.",
-    image: "/Festive Premium Thali.png",
+    image: "/Festive-Premium-Thali.png",
   },
   {
     name: "Khaman Dhokla",
@@ -71,7 +71,7 @@ export const menuItems: MenuItem[] = [
     badge: "Seasonal",
     category: "Farsan",
     desc: "Crisp Gujarati kachori stuffed with spiced lilva filling.",
-    image: "/Lilva Kachori.png",
+    image: "/Lilva-Kachori.png",
   },
   {
     name: "Samosa Chaat",
@@ -80,7 +80,7 @@ export const menuItems: MenuItem[] = [
     badge: "Street Style",
     category: "Farsan",
     desc: "Crunchy samosa topped with chutneys, sev and curd.",
-    image: "/Samosa Chaat.png",
+    image: "/Samosa-Chaat.png",
   },
   {
     name: "Fafda Jalebi",
@@ -107,7 +107,7 @@ export const menuItems: MenuItem[] = [
     badge: "Morning Favourite",
     category: "Breakfast",
     desc: "Light and fluffy poha with peanuts, sev and lemon.",
-    image: "/Poha with Sev.png",
+    image: "/poha.png",
   },
   {
     name: "Handvo Slice",
@@ -143,7 +143,7 @@ export const menuItems: MenuItem[] = [
     badge: "Comfort Bowl",
     category: "Main Course",
     desc: "Gujarati comfort meal of soft khichdi with smooth kadhi.",
-    image: "/Khichdi Kadhi.png",
+    image: "/Khichdi-Kadhi.png",
   },
   {
     name: "Lasaniya Bataka",
@@ -152,7 +152,7 @@ export const menuItems: MenuItem[] = [
     badge: "Spicy",
     category: "Main Course",
     desc: "Bold garlic potato curry with Kathiyawadi taste.",
-    image: "/Lasaniya Bataka.png",
+    image: "/Lasaniya-Bataka.png",
   },
   {
     name: "Thepla Platter",
@@ -161,7 +161,7 @@ export const menuItems: MenuItem[] = [
     badge: "Healthy Choice",
     category: "Bread",
     desc: "Soft thepla served with curd, pickle and masala tea pairing.",
-    image: "/Thepla Platter.png",
+    image: "/Thepla-Platter.png",
   },
   {
     name: "Bajra Rotla",
@@ -170,7 +170,7 @@ export const menuItems: MenuItem[] = [
     badge: "Traditional",
     category: "Bread",
     desc: "Hot bajra rotla with white butter and jaggery.",
-    image: "/Bajra Rotla.png",
+    image: "/bajra-rotlo.png",
   },
   {
     name: "Phulka Basket",
@@ -179,7 +179,7 @@ export const menuItems: MenuItem[] = [
     badge: "Everyday Favourite",
     category: "Bread",
     desc: "Fresh soft phulka basket for regular meals.",
-    image: "/Phulka Basket.png",
+    image: "/Phulka-Basket.png",
   },
   {
     name: "Bhakri Trio",
@@ -188,7 +188,7 @@ export const menuItems: MenuItem[] = [
     badge: "Rustic",
     category: "Bread",
     desc: "Assorted Gujarati bhakri platter served hot with butter.",
-    image: "/Bhakri Trio.png",
+    image: "/bhakri-trio.png",
   },
   {
     name: "Shrikhand",
@@ -224,7 +224,7 @@ export const menuItems: MenuItem[] = [
     badge: "Hot Seller",
     category: "Dessert",
     desc: "Soft syrup-soaked gulab jamuns served warm.",
-    image: "/Gulab Jamun.png",
+    image: "/Gulab-Jamun.png",
   },
   {
     name: "Masala Chaas",
@@ -233,7 +233,7 @@ export const menuItems: MenuItem[] = [
     badge: "Must Have",
     category: "Beverage",
     desc: "Refreshing spiced buttermilk with roasted cumin and mint.",
-    image: "/Masala Chaas.png",
+    image: "/Masala-Chaas.png",
   },
   {
     name: "Kesar Lassi",
@@ -242,7 +242,7 @@ export const menuItems: MenuItem[] = [
     badge: "Cooling Drink",
     category: "Beverage",
     desc: "Creamy lassi infused with saffron and cardamom.",
-    image: "/Kesar Lassi.png",
+    image: "/Kesar-Lassi.png",
   },
   {
     name: "Masala Tea",
@@ -251,7 +251,7 @@ export const menuItems: MenuItem[] = [
     badge: "Daily Favourite",
     category: "Beverage",
     desc: "Aromatic Indian tea brewed with spices and milk.",
-    image: "/Masala Tea.png",
+    image: "/Masala-Tea.png",
   },
   {
     name: "Fresh Lime Soda",
@@ -260,7 +260,7 @@ export const menuItems: MenuItem[] = [
     badge: "Refreshing",
     category: "Beverage",
     desc: "Sweet-salty lime soda to pair with spicy Gujarati dishes.",
-    image: "/Fresh Lime Soda.png",
+    image: "/Fresh-Lime-Soda.png",
   },
 ];
 

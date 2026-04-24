@@ -26,8 +26,10 @@ export default function CartDrawer({
   const [customerAddress, setCustomerAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
 
-  const getPriceNumber = (price: string) =>
-    Number(price.replace(/[^\d]/g, "") || 0);
+  const getPriceNumber = (price: number | string) =>
+    typeof price === "number"
+      ? price
+      : Number(price.replace(/[^\d]/g, "") || 0);
 
   const total = cartItems.reduce(
     (sum, item) => sum + getPriceNumber(item.price) * item.quantity,
@@ -52,6 +54,8 @@ export default function CartDrawer({
     const order: Order = {
       id: "ORD-" + Date.now(),
       date: new Date().toLocaleString(),
+      createdAt: new Date().toISOString(),
+      status: "placed",
       customer: {
         name: customerName,
         phone: customerPhone,
@@ -63,6 +67,7 @@ export default function CartDrawer({
         name: item.name,
         price: getPriceNumber(item.price),
         qty: item.quantity,
+        image: item.image, // ✅ THIS FIXES PROFILE IMAGE ISSUE
       })),
       total,
     };
@@ -102,6 +107,7 @@ export default function CartDrawer({
                 <p className="text-sm text-white/60">{totalItems} items</p>
               </div>
             </div>
+
             <button
               onClick={onClose}
               className="rounded-full border border-white/10 p-2 text-white/70 transition hover:border-orange-400/30 hover:text-orange-300"
@@ -135,10 +141,11 @@ export default function CartDrawer({
                     >
                       <div className="flex gap-4">
                         <img
-                          src={item.image}
+                          src={item.image || "/fallback.png"}
                           alt={item.name}
                           className="h-20 w-20 rounded-2xl object-cover"
                         />
+
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-3">
                             <div>
@@ -149,9 +156,10 @@ export default function CartDrawer({
                                 {item.category}
                               </p>
                               <p className="mt-2 font-semibold text-orange-300">
-                                {item.price}
+                                ₹{getPriceNumber(item.price)}
                               </p>
                             </div>
+
                             <button
                               onClick={() => onRemove(item.name)}
                               className="rounded-full bg-red-500/15 p-2 text-red-300 transition hover:bg-red-500/25"
@@ -159,6 +167,7 @@ export default function CartDrawer({
                               <Trash2 className="h-4 w-4" />
                             </button>
                           </div>
+
                           <div className="mt-4 flex items-center gap-3">
                             <button
                               onClick={() => onDecrease(item.name)}
@@ -166,9 +175,11 @@ export default function CartDrawer({
                             >
                               <Minus className="h-4 w-4" />
                             </button>
+
                             <span className="min-w-[28px] text-center text-lg font-bold text-white">
                               {item.quantity}
                             </span>
+
                             <button
                               onClick={() => onIncrease(item.name)}
                               className="rounded-full border border-white/15 p-2 text-white transition hover:border-orange-400/40 hover:text-orange-300"
@@ -189,66 +200,52 @@ export default function CartDrawer({
                   <h3 className="text-lg font-bold text-white">
                     Checkout Details
                   </h3>
+
                   <div className="mt-4 space-y-4">
-                    <div>
-                      <label className="mb-2 block text-sm text-white/70">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={customerName}
-                        onChange={(e) => setCustomerName(e.target.value)}
-                        placeholder="Enter your name"
-                        className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block text-sm text-white/70">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={customerPhone}
-                        onChange={(e) => setCustomerPhone(e.target.value)}
-                        placeholder="Enter your phone number"
-                        className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block text-sm text-white/70">
-                        Delivery Address
-                      </label>
-                      <textarea
-                        required
-                        value={customerAddress}
-                        onChange={(e) => setCustomerAddress(e.target.value)}
-                        placeholder="Enter your address"
-                        className="min-h-[100px] w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:border-orange-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block text-sm text-white/70">
-                        Payment Method
-                      </label>
-                      <select
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
-                      >
-                        <option>Cash on Delivery</option>
-                        <option>UPI</option>
-                        <option>Card</option>
-                      </select>
-                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      placeholder="Enter your name"
+                      className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
+                    />
+
+                    <input
+                      type="tel"
+                      required
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      placeholder="Enter your phone number"
+                      className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
+                    />
+
+                    <textarea
+                      required
+                      value={customerAddress}
+                      onChange={(e) => setCustomerAddress(e.target.value)}
+                      placeholder="Enter your address"
+                      className="min-h-[100px] w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:border-orange-400"
+                    />
+
+                    <select
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-white outline-none focus:border-orange-400"
+                    >
+                      <option>Cash on Delivery</option>
+                      <option>UPI</option>
+                      <option>Card</option>
+                    </select>
                   </div>
+
                   <div className="mt-5 flex items-center justify-between">
                     <span className="text-white/70">Total</span>
                     <span className="text-2xl font-black text-orange-300">
                       ₹{total}
                     </span>
                   </div>
+
                   <button
                     type="submit"
                     className="mt-5 w-full rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-6 py-4 font-bold text-black transition hover:scale-[1.01]"

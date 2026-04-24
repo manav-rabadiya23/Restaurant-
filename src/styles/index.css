@@ -24,7 +24,7 @@ img {
 /* Calendar styling for Dark Mode visibility */
 input[type="date"],
 input[type="time"] {
-  color-scheme: dark;
+  color-scheme: white;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator,

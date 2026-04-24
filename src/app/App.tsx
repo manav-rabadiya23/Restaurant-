@@ -26,7 +26,6 @@ import type { CartItem, MenuItem, Order, Review } from "./types";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
-
   const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot">(
     "login",
   );
@@ -40,24 +39,29 @@ function App() {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [toast, setToast] = useState("");
-  const [lastOrder, setLastOrder] = useState<Order | null>(null);
 
+  const [toast, setToast] = useState("");
   const toastTimeoutRef = useRef<number | null>(null);
 
-  // ⭐ FEEDBACK STATE
+  const [lastOrder, setLastOrder] = useState<Order | null>(null);
+
+  const [bookingName, setBookingName] = useState("");
+  const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingGuests, setBookingGuests] = useState("2");
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState("");
+  const [specialRequest, setSpecialRequest] = useState("");
+
   const [feedbackName, setFeedbackName] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedbackRating, setFeedbackRating] = useState(0);
-
-  // ⭐ LIVE REVIEWS STATE (IMPORTANT)
   const [liveReviews, setLiveReviews] = useState<Review[]>(initialReviews);
 
-  // LOAD LOCAL STORAGE
   useEffect(() => {
     const savedCart = localStorage.getItem("restaurant-cart");
     const savedOrders = localStorage.getItem("restaurant-orders");
     const savedName = localStorage.getItem("restaurant-user-name");
+    const savedUser = localStorage.getItem("user");
 
     if (savedCart) setCartItems(JSON.parse(savedCart));
     if (savedOrders) setOrderHistory(JSON.parse(savedOrders));
@@ -65,6 +69,13 @@ function App() {
     if (savedName) {
       setUserName(savedName);
       setIsLoggedIn(true);
+      setBookingName(savedName);
+    }
+
+    if (savedUser) {
+      const user = JSON.parse(savedUser);
+      setBookingName(user.name || savedName || "");
+      setBookingPhone(user.phone || "");
     }
   }, []);
 
@@ -72,14 +83,19 @@ function App() {
     localStorage.setItem("restaurant-cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // NAVIGATION
+  const showToast = (msg: string) => {
+    setToast(msg);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = window.setTimeout(() => setToast(""), 2000);
+  };
+
   const handleNavigate = (href: string) => {
     setActiveScreen("home");
     setActiveNav(href);
 
     setTimeout(() => {
-      const targetId = href.startsWith("#") ? href.substring(1) : href;
-      const element = document.getElementById(targetId);
+      const id = href.startsWith("#") ? href.substring(1) : href;
+      const element = document.getElementById(id);
 
       if (element) {
         window.scrollTo({
@@ -90,15 +106,14 @@ function App() {
     }, 150);
   };
 
-  // USER UPDATE
-  const handleUpdateUser = (newName: string) => {
-    const upperName = newName.toUpperCase();
-    setUserName(upperName);
-    localStorage.setItem("restaurant-user-name", upperName);
-    showToast("PROFILE UPDATED SUCCESSFULLY");
+  const handleUpdateUser = (name: string) => {
+    const upper = name.toUpperCase();
+    setUserName(upper);
+    setBookingName(upper);
+    localStorage.setItem("restaurant-user-name", upper);
+    showToast("Profile updated");
   };
 
-  // MENU FILTER
   const categories = useMemo(
     () => ["All", ...new Set(menuItems.map((item) => item.category))],
     [],
@@ -106,14 +121,11 @@ function App() {
 
   const filteredMenu = useMemo(() => {
     return menuItems.filter((item) => {
-      const categoryMatch =
-        selectedCategory === "All" || item.category === selectedCategory;
-
-      const searchMatch =
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.desc.toLowerCase().includes(searchTerm.toLowerCase());
-
-      return categoryMatch && searchMatch;
+      return (
+        (selectedCategory === "All" || item.category === selectedCategory) &&
+        (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.desc.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
     });
   }, [searchTerm, selectedCategory]);
 
@@ -122,12 +134,12 @@ function App() {
     [cartItems],
   );
 
-  // LOGIN
   const handleLogin = (name: string) => {
-    const upperName = name.toUpperCase();
-    setUserName(upperName);
+    const upper = name.toUpperCase();
+    setUserName(upper);
+    setBookingName(upper);
     setIsLoggedIn(true);
-    localStorage.setItem("restaurant-user-name", upperName);
+    localStorage.setItem("restaurant-user-name", upper);
   };
 
   const handleLogout = () => {
@@ -136,22 +148,15 @@ function App() {
     setActiveScreen("home");
   };
 
-  // TOAST
-  const showToast = (message: string) => {
-    setToast(message);
-    if (toastTimeoutRef.current) window.clearTimeout(toastTimeoutRef.current);
-
-    toastTimeoutRef.current = window.setTimeout(() => setToast(""), 2500);
-  };
-
-  // CART
   const handleAddToCart = (item: MenuItem) => {
     setCartItems((prev) => {
-      const existing = prev.find((i) => i.name === item.name);
+      const exist = prev.find((cartItem) => cartItem.name === item.name);
 
-      if (existing) {
-        return prev.map((i) =>
-          i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i,
+      if (exist) {
+        return prev.map((cartItem) =>
+          cartItem.name === item.name
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
         );
       }
 
@@ -161,24 +166,43 @@ function App() {
     showToast(`${item.name.toUpperCase()} ADDED TO CART 🛒`);
   };
 
-  // ORDER
   const handlePlaceOrder = (order: Order) => {
-    const newHistory = [order, ...orderHistory];
+    const newOrder: Order = {
+      ...order,
+      createdAt: new Date().toISOString(),
+      status: "placed",
+    };
+
+    const newHistory: Order[] = [newOrder, ...orderHistory];
 
     setOrderHistory(newHistory);
     localStorage.setItem("restaurant-orders", JSON.stringify(newHistory));
 
     setCartItems([]);
-    setLastOrder(order);
-    showToast("ORDER PLACED SUCCESSFULLY! 🍽️");
+    setLastOrder(newOrder);
+    setIsCartOpen(false);
+
+    showToast("Order placed 🍽️");
   };
 
-  // ⭐ FEEDBACK SUBMIT (LIVE REVIEW FIX)
+  const handleDeleteOrder = (orderId: string) => {
+    const updated = orderHistory.filter((order) => order.id !== orderId);
+    setOrderHistory(updated);
+    localStorage.setItem("restaurant-orders", JSON.stringify(updated));
+    showToast("Order deleted 🗑️");
+  };
+
+  const handleClearOrders = () => {
+    setOrderHistory([]);
+    localStorage.removeItem("restaurant-orders");
+    showToast("All orders cleared 🧹");
+  };
+
   const handleFeedbackSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (feedbackRating === 0) {
-      showToast("PLEASE GIVE A RATING ⭐");
+      showToast("Please give a rating ⭐");
       return;
     }
 
@@ -190,29 +214,36 @@ function App() {
     };
 
     setLiveReviews((prev) => [newReview, ...prev]);
-
     setFeedbackName("");
     setFeedbackMessage("");
     setFeedbackRating(0);
-
-    showToast("FEEDBACK ADDED ⭐");
+    showToast("Feedback added ⭐");
   };
 
-  // AUTH
+  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    showToast("Table booked successfully 🍽️");
+
+    setBookingGuests("2");
+    setBookingDate("");
+    setBookingTime("");
+    setSpecialRequest("");
+  };
+
   if (!isLoggedIn) {
     if (authMode === "login") {
       return <LoginPage onLogin={handleLogin} setAuthMode={setAuthMode} />;
     }
+
     if (authMode === "signup") {
       return <SignupPage onSignup={handleLogin} setAuthMode={setAuthMode} />;
     }
-    if (authMode === "forgot") {
-      return <ForgotPassword setAuthMode={setAuthMode} />;
-    }
+
+    return <ForgotPassword setAuthMode={setAuthMode} />;
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0b0b] text-white">
+    <div className="bg-black text-white min-h-screen">
       <Header
         activeNav={activeNav}
         setActiveNav={handleNavigate}
@@ -222,64 +253,65 @@ function App() {
         onProfileClick={() => setActiveScreen("profile")}
       />
 
-      <main>
-        {activeScreen === "profile" ? (
-          <ProfilePage
-            orders={orderHistory}
-            userName={userName}
-            onBack={() => setActiveScreen("home")}
-            onUpdateUser={handleUpdateUser}
+      {activeScreen === "profile" ? (
+        <ProfilePage
+          orders={orderHistory}
+          userName={userName}
+          onBack={() => setActiveScreen("home")}
+          onUpdateUser={handleUpdateUser}
+          onDeleteOrder={handleDeleteOrder}
+          onClearOrders={handleClearOrders}
+        />
+      ) : (
+        <>
+          <HeroSection userName={userName} setActiveNav={handleNavigate} />
+
+          <FeaturesSection />
+
+          <MenuSection
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredMenu={filteredMenu}
+            onAddToCart={handleAddToCart}
           />
-        ) : (
-          <>
-            <HeroSection userName={userName} setActiveNav={handleNavigate} />
-            <FeaturesSection />
-            <MenuSection
-              categories={categories}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              filteredMenu={filteredMenu}
-              onAddToCart={handleAddToCart}
-            />
-            <AboutSection />
-            <GallerySection />
 
-            {/* ⭐ LIVE REVIEWS */}
-            <ReviewsSection customerReviews={liveReviews} />
+          <AboutSection />
+          <GallerySection />
 
-            {/* ⭐ FEEDBACK FORM */}
-            <FeedbackSection
-              feedbackName={feedbackName}
-              setFeedbackName={setFeedbackName}
-              feedbackMessage={feedbackMessage}
-              setFeedbackMessage={setFeedbackMessage}
-              feedbackRating={feedbackRating}
-              setFeedbackRating={setFeedbackRating}
-              onSubmit={handleFeedbackSubmit}
-            />
+          <ReviewsSection customerReviews={liveReviews} />
 
-            <BookingSection
-              bookingName={userName}
-              setBookingName={() => {}}
-              bookingPhone=""
-              setBookingPhone={() => {}}
-              bookingGuests="2"
-              setBookingGuests={() => {}}
-              bookingDate=""
-              setBookingDate={() => {}}
-              bookingTime=""
-              setBookingTime={() => {}}
-              specialRequest=""
-              setSpecialRequest={() => {}}
-              onSubmit={(e) => e.preventDefault()}
-            />
+          <FeedbackSection
+            feedbackName={feedbackName}
+            setFeedbackName={setFeedbackName}
+            feedbackMessage={feedbackMessage}
+            setFeedbackMessage={setFeedbackMessage}
+            feedbackRating={feedbackRating}
+            setFeedbackRating={setFeedbackRating}
+            onSubmit={handleFeedbackSubmit}
+          />
 
-            <ContactSection />
-          </>
-        )}
-      </main>
+          <BookingSection
+            bookingName={bookingName || userName}
+            setBookingName={setBookingName}
+            bookingPhone={bookingPhone}
+            setBookingPhone={setBookingPhone}
+            bookingGuests={bookingGuests}
+            setBookingGuests={setBookingGuests}
+            bookingDate={bookingDate}
+            setBookingDate={setBookingDate}
+            bookingTime={bookingTime}
+            setBookingTime={setBookingTime}
+            specialRequest={specialRequest}
+            setSpecialRequest={setSpecialRequest}
+            onSubmit={handleBookingSubmit}
+          />
+
+          <ContactSection />
+        </>
+      )}
 
       <Footer onLogout={handleLogout} />
 
@@ -289,22 +321,26 @@ function App() {
         cartItems={cartItems}
         onIncrease={(name) =>
           setCartItems((prev) =>
-            prev.map((i) =>
-              i.name === name ? { ...i, quantity: i.quantity + 1 } : i,
+            prev.map((item) =>
+              item.name === name
+                ? { ...item, quantity: item.quantity + 1 }
+                : item,
             ),
           )
         }
         onDecrease={(name) =>
           setCartItems((prev) =>
             prev
-              .map((i) =>
-                i.name === name ? { ...i, quantity: i.quantity - 1 } : i,
+              .map((item) =>
+                item.name === name
+                  ? { ...item, quantity: item.quantity - 1 }
+                  : item,
               )
-              .filter((i) => i.quantity > 0),
+              .filter((item) => item.quantity > 0),
           )
         }
         onRemove={(name) =>
-          setCartItems((prev) => prev.filter((i) => i.name !== name))
+          setCartItems((prev) => prev.filter((item) => item.name !== name))
         }
         onClearCart={() => setCartItems([])}
         onPlaceOrder={handlePlaceOrder}
@@ -315,8 +351,10 @@ function App() {
       )}
 
       {toast && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-orange-500 px-6 py-3 rounded-full text-black font-bold">
-          {toast}
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center pointer-events-none">
+          <div className="bg-gradient-to-r from-orange-500 to-yellow-400 text-black px-10 py-5 rounded-2xl font-bold shadow-2xl text-lg">
+            {toast}
+          </div>
         </div>
       )}
     </div>

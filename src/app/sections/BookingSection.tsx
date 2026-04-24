@@ -37,7 +37,7 @@ export default function BookingSection({
 }) {
   return (
     <section id="booking" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-      <div className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 md:grid-cols-2">
+      <div className="grid overflow-visible rounded-[2rem] border border-white/10 bg-white/5 md:grid-cols-2">
         <div className="bg-gradient-to-br from-orange-500 to-yellow-400 p-8 text-black sm:p-10">
           <p className="text-sm font-bold uppercase tracking-[0.3em]">
             Booking

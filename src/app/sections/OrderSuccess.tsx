@@ -152,25 +152,32 @@ export default function OrderSuccess({
               animate="visible"
               className="flex-1 space-y-6 mb-10 overflow-y-auto pr-2 custom-scrollbar max-h-48"
             >
-              {order.items.map((item, i) => (
-                <motion.div
-                  key={i}
-                  variants={itemVars}
-                  className="flex justify-between items-center border-b border-white/5 pb-5 group"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-xl font-mono font-bold text-orange-500">
-                      {item.qty}x
+              {order.items.map((item, i) => {
+                const qty = Number(item.qty || 0);
+                const price = Number(item.price || 0);
+
+                return (
+                  <motion.div
+                    key={i}
+                    variants={itemVars}
+                    className="flex justify-between items-center border-b border-white/5 pb-5 group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-xl font-mono font-bold text-orange-500">
+                        {qty}x
+                      </span>
+
+                      <span className="text-xl md:text-2xl font-bold text-white group-hover:text-orange-400 transition-colors">
+                        {item.name}
+                      </span>
+                    </div>
+
+                    <span className="text-xl md:text-2xl font-black shrink-0">
+                      ₹{(qty * price).toFixed(2)}
                     </span>
-                    <span className="text-xl md:text-2xl font-bold text-white group-hover:text-orange-400 transition-colors">
-                      {item.name}
-                    </span>
-                  </div>
-                  <span className="text-xl md:text-2xl font-black shrink-0">
-                    ₹{(item.qty * item.price).toFixed(2)}
-                  </span>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </motion.div>
 
             {/* Total Section */}
