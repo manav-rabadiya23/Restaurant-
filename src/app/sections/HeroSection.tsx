@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, Utensils, CalendarCheck } from "lucide-react";
+import { Users, Utensils, CalendarCheck, Sparkles } from "lucide-react";
 import { FaLeaf } from "react-icons/fa";
 import {
   motion,
@@ -105,10 +105,198 @@ export default function HeroSection({
     >
       {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.18),transparent_42%),linear-gradient(180deg,#120706_0%,#050505_70%)]" />
+
         <motion.div
           className="absolute inset-0 z-10 opacity-70"
           style={{ background: mouseGlow }}
         />
+
+        {/* PREMIUM GUJARATI TORAN */}
+        <div className="absolute left-0 top-0 z-[20] w-full">
+          <div className="mx-auto flex max-w-6xl items-start justify-center gap-2 px-3 pt-1 sm:gap-3">
+            {[...Array(21)].map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{
+                  y: [0, i % 2 === 0 ? 6 : 3, 0],
+                  rotate: [0, i % 2 === 0 ? 4 : -4, 0],
+                }}
+                transition={{
+                  duration: 2.4 + i * 0.04,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="flex flex-col items-center"
+              >
+                <div className="h-5 w-px bg-yellow-300/80" />
+                <div className="relative h-5 w-5 rounded-full bg-orange-500 shadow-[0_0_18px_rgba(251,146,60,0.8)]">
+                  <div className="absolute inset-1 rounded-full bg-yellow-300/70" />
+                </div>
+                <div className="mt-1 h-6 w-4 rounded-b-full bg-gradient-to-b from-green-500 to-green-800 shadow-[0_0_12px_rgba(34,197,94,0.35)]" />
+                <div className="mt-1 h-4 w-3 rounded-b-full bg-gradient-to-b from-yellow-300 to-orange-600 shadow-[0_0_12px_rgba(251,191,36,0.55)]" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* SIDE ORNAMENTAL CORNERS */}
+        <div className="absolute left-3 top-24 z-[8] hidden h-32 w-32 rounded-tl-[3rem] border-l border-t border-orange-300/30 md:block" />
+        <div className="absolute right-3 top-24 z-[8] hidden h-32 w-32 rounded-tr-[3rem] border-r border-t border-orange-300/30 md:block" />
+        <div className="absolute bottom-8 left-3 z-[8] hidden h-32 w-32 rounded-bl-[3rem] border-b border-l border-orange-300/25 md:block" />
+        <div className="absolute bottom-8 right-3 z-[8] hidden h-32 w-32 rounded-br-[3rem] border-b border-r border-orange-300/25 md:block" />
+
+        {/* LEFT PREMIUM MANDALA */}
+        <motion.svg
+          animate={{ rotate: [0, 10, 0], scale: [1, 1.04, 1] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          viewBox="0 0 100 100"
+          className="absolute -left-16 top-[26%] z-[4] w-60 text-orange-400 opacity-35 sm:-left-8 md:left-5 md:w-72"
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle cx="50" cy="50" r="46" strokeWidth="0.5" />
+          <circle cx="50" cy="50" r="38" strokeWidth="0.45" />
+          <circle cx="50" cy="50" r="26" strokeWidth="0.45" />
+          <circle cx="50" cy="50" r="12" strokeWidth="0.45" />
+          {[...Array(16)].map((_, i) => (
+            <path
+              key={i}
+              d="M50 5 Q63 27 50 50 Q37 27 50 5"
+              transform={`rotate(${i * 22.5} 50 50)`}
+              strokeWidth="0.35"
+            />
+          ))}
+          {[...Array(8)].map((_, i) => (
+            <circle
+              key={`dot-${i}`}
+              cx="50"
+              cy="12"
+              r="1.6"
+              transform={`rotate(${i * 45} 50 50)`}
+              fill="currentColor"
+              strokeWidth="0"
+            />
+          ))}
+        </motion.svg>
+
+        {/* RIGHT PREMIUM MANDALA */}
+        <motion.svg
+          animate={{ rotate: [0, -10, 0], scale: [1, 1.04, 1] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          viewBox="0 0 100 100"
+          className="absolute -right-16 top-[30%] z-[4] w-60 text-yellow-400 opacity-35 sm:-right-8 md:right-5 md:w-72"
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle cx="50" cy="50" r="46" strokeWidth="0.5" />
+          <circle cx="50" cy="50" r="38" strokeWidth="0.45" />
+          <circle cx="50" cy="50" r="26" strokeWidth="0.45" />
+          <circle cx="50" cy="50" r="12" strokeWidth="0.45" />
+          {[...Array(16)].map((_, i) => (
+            <path
+              key={i}
+              d="M50 5 Q63 27 50 50 Q37 27 50 5"
+              transform={`rotate(${i * 22.5} 50 50)`}
+              strokeWidth="0.35"
+            />
+          ))}
+          {[...Array(8)].map((_, i) => (
+            <circle
+              key={`dot-${i}`}
+              cx="50"
+              cy="12"
+              r="1.6"
+              transform={`rotate(${i * 45} 50 50)`}
+              fill="currentColor"
+              strokeWidth="0"
+            />
+          ))}
+        </motion.svg>
+
+        {/* DIYA GLOW LEFT */}
+        <motion.div
+          animate={{ opacity: [0.45, 1, 0.45], scale: [1, 1.08, 1] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-20 left-8 z-[9] hidden md:block"
+        >
+          <div className="relative h-12 w-16 rounded-b-full rounded-t-[50%] border border-orange-300/40 bg-orange-700/30">
+            <div className="absolute left-1/2 top-[-22px] h-8 w-5 -translate-x-1/2 rounded-full bg-gradient-to-t from-orange-500 via-yellow-300 to-white shadow-[0_0_35px_rgba(251,191,36,0.9)]" />
+            <div className="absolute inset-x-2 bottom-1 h-2 rounded-full bg-yellow-300/50" />
+          </div>
+        </motion.div>
+
+        {/* DIYA GLOW RIGHT */}
+        <motion.div
+          animate={{ opacity: [0.45, 1, 0.45], scale: [1, 1.08, 1] }}
+          transition={{ duration: 2.7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-20 right-8 z-[9] hidden md:block"
+        >
+          <div className="relative h-12 w-16 rounded-b-full rounded-t-[50%] border border-orange-300/40 bg-orange-700/30">
+            <div className="absolute left-1/2 top-[-22px] h-8 w-5 -translate-x-1/2 rounded-full bg-gradient-to-t from-orange-500 via-yellow-300 to-white shadow-[0_0_35px_rgba(251,191,36,0.9)]" />
+            <div className="absolute inset-x-2 bottom-1 h-2 rounded-full bg-yellow-300/50" />
+          </div>
+        </motion.div>
+
+        {/* BOTTOM RANGOLI */}
+        <motion.svg
+          animate={{ scale: [1, 1.05, 1], opacity: [0.24, 0.42, 0.24] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          viewBox="0 0 100 100"
+          className="absolute bottom-[-85px] left-1/2 z-[5] w-80 -translate-x-1/2 text-orange-400 opacity-40 sm:w-[430px]"
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle cx="50" cy="50" r="47" strokeWidth="0.45" />
+          <circle cx="50" cy="50" r="39" strokeWidth="0.4" />
+          <circle cx="50" cy="50" r="29" strokeWidth="0.4" />
+          <circle cx="50" cy="50" r="18" strokeWidth="0.4" />
+          <circle cx="50" cy="50" r="7" strokeWidth="0.4" />
+          {[...Array(20)].map((_, i) => (
+            <path
+              key={i}
+              d="M50 4 Q64 27 50 50 Q36 27 50 4"
+              transform={`rotate(${i * 18} 50 50)`}
+              strokeWidth="0.3"
+            />
+          ))}
+          {[...Array(20)].map((_, i) => (
+            <circle
+              key={`rangoli-dot-${i}`}
+              cx="50"
+              cy="9"
+              r="1"
+              transform={`rotate(${i * 18} 50 50)`}
+              fill="currentColor"
+              strokeWidth="0"
+            />
+          ))}
+        </motion.svg>
+
+        {/* FLOATING GUJARATI FOOD SYMBOLS */}
+        {["થાળી", "ખમણ", "ફાફડા", "થેપલા"].map((item, i) => (
+          <motion.div
+            key={item}
+            animate={{
+              y: [0, -14, 0],
+              opacity: [0.12, 0.28, 0.12],
+              rotate: [0, i % 2 === 0 ? 4 : -4, 0],
+            }}
+            transition={{
+              duration: 5 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.4,
+            }}
+            className="absolute z-[3] hidden rounded-full border border-orange-300/15 bg-orange-500/5 px-5 py-2 text-sm font-bold text-orange-200/70 backdrop-blur-sm md:block"
+            style={{
+              left: `${12 + i * 20}%`,
+              bottom: `${18 + (i % 2) * 14}%`,
+            }}
+          >
+            {item}
+          </motion.div>
+        ))}
 
         {/* LIGHTS */}
         {[...Array(5)].map((_, i) => (
@@ -116,7 +304,7 @@ export default function HeroSection({
             key={i}
             animate={{ opacity: [0.4, 1, 0.4], y: [0, 6, 0] }}
             transition={{ duration: 3 + i, repeat: Infinity }}
-            className="absolute top-0"
+            className="absolute top-0 z-[6]"
             style={{ left: `${10 + i * 18}%` }}
           >
             <div className="mx-auto h-24 w-px bg-gradient-to-b from-orange-200/40 to-transparent" />
