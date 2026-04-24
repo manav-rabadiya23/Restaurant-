@@ -1,171 +1,344 @@
-import { FaUtensils, FaLeaf } from "react-icons/fa";
-import { GiMeal, GiCook } from "react-icons/gi";
+import { useState } from "react";
+import { FaLeaf, FaStar, FaUtensils, FaBirthdayCake } from "react-icons/fa";
+import { GiMeal, GiPartyPopper } from "react-icons/gi";
+import { MdDeliveryDining, MdFamilyRestroom } from "react-icons/md";
 import { motion } from "framer-motion";
 import { restaurantName } from "../data/restaurantData";
+import { FaUserTie } from "react-icons/fa";
+
+const galleryImages = [
+  {
+    img: "/restaurant.jpg",
+    title: "Family Dining",
+    desc: "Enjoy comfortable seating and premium ambience designed for family lunches, dinners and weekend gatherings. Our space is crafted to give a warm and peaceful dining experience.",
+  },
+  {
+    img: "/thali.jpg",
+    title: "Premium Thali",
+    desc: "Experience a complete Gujarati thali with farsan, sabzi, dal, rice, roti and sweets. Every plate is balanced with authentic taste and traditional presentation.",
+  },
+  {
+    img: "/catering.jpg",
+    title: "Catering Service",
+    desc: "We provide catering services for events, birthdays and family functions. Our team ensures high-quality food, proper hygiene and smooth service.",
+  },
+];
 
 export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative mx-auto grid max-w-7xl items-center gap-14 overflow-hidden px-4 py-24 sm:px-6 md:grid-cols-2"
+      className="relative mx-auto max-w-7xl overflow-hidden px-4 py-20 text-white sm:px-6 lg:py-28"
     >
-      {/* BACKGROUND GLOW */}
-      <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-orange-500/10 blur-[100px]" />
-      <div className="pointer-events-none absolute bottom-10 right-0 h-72 w-72 rounded-full bg-yellow-500/10 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-10 h-96 w-96 -translate-x-1/2 rounded-full bg-orange-500/10 blur-[120px]" />
 
-      {/* IMAGE SECTION */}
-      <motion.div
-        initial={{ opacity: 0, x: -60, scale: 0.95 }}
-        whileInView={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        viewport={{ once: false, amount: 0.25 }}
-        className="relative group"
-      >
-        <div className="absolute -inset-4 rounded-[2.5rem] bg-orange-500/10 blur-2xl opacity-0 transition duration-700 group-hover:opacity-100" />
-
-        <motion.img
-          src="/food.jpg"
-          alt="Delicious traditional food"
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.5 }}
-          className="relative h-[360px] w-full rounded-[2.5rem] border border-white/10 object-cover shadow-2xl sm:h-[420px]"
-        />
-
-        {/* Floating image */}
+      <div className="relative grid items-start gap-8 lg:grid-cols-2 xl:gap-10">
+        {/* LEFT SIDE */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 45 }}
           whileInView={{ opacity: 1, y: 0 }}
-          animate={{ y: [0, -10, 0] }}
-          transition={{
-            opacity: { duration: 0.6 },
-            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-          }}
-          viewport={{ once: true }}
-          className="absolute -bottom-10 left-6 hidden sm:block"
+          transition={{ duration: 0.7 }}
+          viewport={{ once: false, amount: 0.25 }}
+          className="rounded-[2rem] border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-xl"
         >
-          <img
-            src="/restaurant.jpg"
-            alt="Restaurant ambience"
-            className="h-32 w-44 rounded-2xl border-4 border-black object-cover shadow-xl"
-          />
+          <div className="relative overflow-hidden rounded-[1.5rem]">
+            <img
+              src="/food.jpg"
+              alt="Gujarati Rasoi"
+              className="h-[430px] w-full object-cover sm:h-[560px]"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+            <div className="absolute bottom-6 left-5 right-5">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-300">
+                Authentic Gujarati Rasoi
+              </p>
+              <h3 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">
+                Fresh, Warm & Truly Traditional
+              </h3>
+            </div>
+          </div>
+
+          {/* SINCE SECTION ON LEFT SIDE */}
+          <div className="mt-5 flex items-center gap-4 rounded-2xl border border-orange-400/20 bg-black/30 p-4 transition hover:scale-[1.01]">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
+              <img
+                src="/since.png"
+                alt="Since"
+                className="h-8 w-8 object-contain"
+              />
+            </div>
+
+            <div>
+              <p className="text-sm font-black text-orange-300">
+                Serving Since 2020
+              </p>
+              <p className="text-xs leading-relaxed text-white/50">
+                Trusted Gujarati taste with modern dining experience.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 space-y-5">
+            {galleryImages.map((item, index) => (
+              <ImageRow key={item.title} {...item} index={index} />
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-orange-400/20 bg-orange-500/10 p-4">
+            <div className="flex items-center gap-2 text-orange-400">
+              <FaStar />
+              <span className="font-black">4.8 Rating</span>
+            </div>
+            <p className="mt-1 text-xs text-white/50">
+              Loved by customers for authentic taste, service and fresh food.
+            </p>
+          </div>
+          <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
+            <Stat value="50+" label="Dishes" />
+            <Stat value="100%" label="Fresh" />
+            <Stat value="4.8★" label="Rating" />
+          </div>
         </motion.div>
 
-        {/* Badge */}
+        {/* RIGHT SIDE */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="absolute -bottom-6 -right-2 rounded-xl bg-orange-500 px-6 py-3 text-xs font-bold text-black shadow-lg sm:-right-4"
+          initial={{ opacity: 0, x: 45 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: false, amount: 0.25 }}
+          className="relative rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-6 md:p-8"
         >
-          Est. 2026
-        </motion.div>
-      </motion.div>
-
-      {/* CONTENT SECTION */}
-      <motion.div
-        initial={{ opacity: 0, x: 60 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        viewport={{ once: false, amount: 0.25 }}
-      >
-        <div className="mb-6">
-          <p className="mb-3 flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-orange-400">
-            <span className="h-px w-8 bg-orange-400"></span>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">
             About Us
           </p>
 
-          <h2 className="text-4xl font-black uppercase italic leading-tight md:text-5xl">
-            Tradition meets <br />
+          <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl md:text-5xl">
+            Modern dining with{" "}
             <span className="bg-gradient-to-r from-orange-400 to-yellow-300 bg-clip-text text-transparent">
-              modern taste
+              Gujarati soul
             </span>
           </h2>
-        </div>
 
-        <p className="text-lg leading-relaxed text-white/60">
-          <span className="font-semibold text-white">{restaurantName}</span> is
-          a premium dining destination in Vadodara, bringing together authentic
-          Indian flavors with a modern dining experience.
-        </p>
+          <p className="mt-6 text-base leading-relaxed text-white/65 sm:text-lg">
+            <span className="font-bold text-white">{restaurantName}</span>{" "}
+            brings traditional Gujarati flavours into a clean, modern and
+            premium restaurant experience.
+          </p>
 
-        <p className="mt-4 leading-relaxed text-white/50">
-          From traditional Gujarati dishes to carefully crafted meals, every
-          plate is prepared using fresh ingredients, rich spices, and attention
-          to detail.
-        </p>
+          <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">
+            We serve fresh thali, farsan, sweets and beverages with warm
+            hospitality. Our restaurant is also available for family parties,
+            birthday celebrations, small events and catering orders.
+          </p>
 
-        {/* FEATURES */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          <Feature
-            icon={<FaUtensils size={26} />}
-            title="Authentic Taste"
-            desc="Traditional recipes inspired by real home kitchens."
-          />
-          <Feature
-            icon={<GiMeal size={28} />}
-            title="Premium Dining"
-            desc="Elegant ambience with warm Gujarati hospitality."
-          />
-          <Feature
-            icon={<FaLeaf size={24} />}
-            title="Fresh Ingredients"
-            desc="High-quality ingredients used in every dish."
-          />
-          <Feature
-            icon={<GiCook size={28} />}
-            title="Expert Chefs"
-            desc="Prepared by experienced chefs with passion."
-          />
-        </div>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            <FlipCard
+              icon={<FaUtensils />}
+              title="Authentic Taste"
+              desc="Experience the real taste of Gujarat with traditional recipes passed down through generations. Every dish is prepared with original spices and homemade techniques."
+              hint="Taste"
+            />
 
-        {/* STATS */}
-        <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-6">
-          <Stat value="50+" label="Dishes" />
-          <Stat value="100%" label="Fresh" />
-          <Stat value="4.8★" label="Rating" />
-        </div>
-      </motion.div>
+            <FlipCard
+              icon={<GiMeal />}
+              title="Premium Thali"
+              desc="Our thali offers a complete meal with variety, balance and presentation. Every item is carefully curated to give a royal dining experience."
+              hint="Thali"
+            />
+
+            <FlipCard
+              icon={<FaLeaf />}
+              title="Fresh Ingredients"
+              desc="We use fresh vegetables, high-quality spices and hygienic preparation methods so every bite feels pure and satisfying."
+              hint="Fresh"
+            />
+
+            <FlipCard
+              icon={<FaUserTie />}
+              title="Expert Chefs"
+              desc="Our chefs bring experience and passion for cooking. They combine traditional cooking skills with modern techniques."
+              hint="Chefs"
+            />
+          </div>
+
+          <div className="mt-10 rounded-[1.8rem] border border-orange-400/20 bg-orange-500/10 p-5 sm:p-6">
+            <div className="mb-6">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-300">
+                We also provide
+              </p>
+              <h3 className="mt-2 text-2xl font-black">
+                Events, parties & catering
+              </h3>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <FlipCard
+                icon={<GiPartyPopper />}
+                title="Party Orders"
+                desc="Customized party food orders with delicious menus, proper packaging and timely delivery."
+                hint="Party"
+                service
+              />
+
+              <FlipCard
+                icon={<FaBirthdayCake />}
+                title="Birthday Events"
+                desc="Celebrate birthdays with tasty meals, good ambience and a comfortable dining environment."
+                hint="Birthday"
+                service
+              />
+
+              <FlipCard
+                icon={<MdFamilyRestroom />}
+                title="Family Functions"
+                desc="Perfect place for family get-togethers with spacious seating and authentic Gujarati food."
+                hint="Family"
+                service
+              />
+
+              <FlipCard
+                icon={<MdDeliveryDining />}
+                title="Catering Service"
+                desc="Catering services for events, offices and functions with quality food and smooth service."
+                hint="Catering"
+                service
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }
 
-function Feature({
+function ImageRow({
+  img,
+  title,
+  desc,
+  index,
+}: {
+  img: string;
+  title: string;
+  desc: string;
+  index: number;
+}) {
+  const reverse = index % 2 !== 0;
+
+  return (
+    <motion.div
+      whileHover={{ y: -4 }}
+      className={`flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40 sm:min-h-[230px] ${
+        reverse ? "sm:flex-row-reverse" : "sm:flex-row"
+      }`}
+    >
+      <img
+        src={img}
+        alt={title}
+        className="h-[260px] w-full object-cover sm:h-auto sm:w-[58%]"
+      />
+
+      <div className="flex flex-1 flex-col justify-center p-5">
+        <h4 className="text-xl font-black text-orange-300">{title}</h4>
+        <p className="mt-3 text-sm leading-relaxed text-white/60">{desc}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function FlipCard({
   icon,
   title,
   desc,
+  hint,
+  service,
 }: {
   icon: React.ReactNode;
   title: string;
   desc: string;
+  hint: string;
+  service?: boolean;
 }) {
+  const [flipped, setFlipped] = useState(false);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 35, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: false, amount: 0.25 }}
-      whileHover={{ y: -6, scale: 1.03 }}
-      className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/50 hover:bg-orange-500/10"
-    >
-      <div className="mb-3 text-orange-400">{icon}</div>
-      <h3 className="mb-1 text-sm font-bold uppercase">{title}</h3>
-      <p className="text-xs text-white/50">{desc}</p>
-    </motion.div>
+    <div className="group h-[260px] [perspective:1200px]">
+      <div
+        className={`relative h-full w-full rounded-2xl transition-all duration-700 [transform-style:preserve-3d] sm:group-hover:[transform:rotateY(180deg)] ${
+          flipped ? "[transform:rotateY(180deg)]" : ""
+        }`}
+      >
+        <div className="absolute inset-0 overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-5 shadow-xl [backface-visibility:hidden]">
+          <div className="relative flex h-full flex-col justify-between">
+            <div>
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/15 text-2xl text-orange-400">
+                {icon}
+              </div>
+
+              <h3 className="text-lg font-black uppercase leading-tight tracking-wide">
+                {title}
+              </h3>
+
+              <p className="mt-3 text-sm leading-relaxed text-white/45">
+                Premium {hint.toLowerCase()} experience made for modern Gujarati
+                dining.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setFlipped(true)}
+              className="rounded-full border border-orange-400/40 bg-orange-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-orange-300 sm:hidden"
+            >
+              Click Here
+            </button>
+
+            <p className="hidden text-xs font-bold uppercase tracking-[0.22em] text-orange-300/80 sm:block">
+              More
+            </p>
+          </div>
+        </div>
+
+        <div className="absolute inset-0 rounded-2xl border border-orange-400/40 bg-gradient-to-br from-black via-[#1b1008] to-orange-950/70 p-5 shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div className="flex h-full flex-col justify-between">
+            <div>
+              <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-orange-300">
+                {title}
+              </p>
+              <p className="text-sm leading-relaxed text-white/70">{desc}</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setFlipped(false)}
+              className="mt-4 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/70 transition hover:bg-white hover:text-black sm:hidden"
+            >
+              Back
+            </button>
+
+            <span className="hidden rounded-full border border-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/50 sm:inline-block">
+              {service ? "Service" : "Feature"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-      viewport={{ once: false, amount: 0.3 }}
-      whileHover={{ scale: 1.08 }}
+      whileHover={{ scale: 1.05, y: -4 }}
+      className="rounded-2xl border border-white/10 bg-black/30 p-3 text-center sm:p-4"
     >
-      <h4 className="text-xl font-bold text-orange-400">{value}</h4>
-      <p className="text-xs uppercase text-white/40">{label}</p>
+      <h4 className="text-lg font-black text-orange-400 sm:text-2xl">
+        {value}
+      </h4>
+      <p className="mt-1 text-[9px] uppercase tracking-widest text-white/40 sm:text-[11px]">
+        {label}
+      </p>
     </motion.div>
   );
 }

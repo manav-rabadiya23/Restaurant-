@@ -50,7 +50,7 @@ export const generatePremiumPDF = (order: Order) => {
   doc.text("Sayajigunj, Vadodara, Gujarat - 390005", 195, 39, {
     align: "right",
   });
-  doc.text("+91 98765 43210 | gujaratirasoi.com", 195, 46, {
+  doc.text("Phone: +91 98765 43210 | Web: gujaratirasoi.com", 195, 46, {
     align: "right",
   });
 

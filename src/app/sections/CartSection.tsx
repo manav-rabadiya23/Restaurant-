@@ -1,4 +1,4 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowLeft, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { CartItem } from "../types";
 
@@ -7,11 +7,13 @@ export default function CartSection({
   onIncrease,
   onDecrease,
   onRemove,
+  onClose,
 }: {
   cartItems: CartItem[];
   onIncrease: (name: string) => void;
   onDecrease: (name: string) => void;
   onRemove: (name: string) => void;
+  onClose: () => void;
 }) {
   const getPriceNumber = (price: string | number) =>
     typeof price === "number"
@@ -24,7 +26,19 @@ export default function CartSection({
   );
 
   return (
-    <section id="order" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+    <section
+      id="order"
+      className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6"
+    >
+      {/* CLOSE BUTTON */}
+      <button
+        onClick={onClose}
+        className="absolute right-4 top-6 z-20 rounded-full border border-white/10 bg-white/5 p-3 text-white/80 transition hover:border-orange-400/40 hover:bg-orange-500/10 hover:text-orange-300"
+      >
+        <X className="h-5 w-5" />
+      </button>
+
+      {/* HEADER */}
       <motion.div
         initial={{ opacity: 0, y: 35 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -32,9 +46,18 @@ export default function CartSection({
         viewport={{ once: true }}
         className="mb-10 text-center"
       >
+        <button
+          onClick={onClose}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-orange-400/40 hover:text-orange-300"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </button>
+
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-orange-400">
           Your Cart
         </p>
+
         <h2 className="mt-4 text-4xl font-black md:text-5xl">
           Online Order Cart
         </h2>
@@ -73,6 +96,7 @@ export default function CartSection({
                     alt={item.name}
                     className="h-24 w-24 rounded-2xl object-cover transition duration-500 group-hover:scale-105"
                   />
+
                   <div>
                     <h3 className="text-xl font-bold">{item.name}</h3>
                     <p className="mt-1 text-white/60">{item.category}</p>

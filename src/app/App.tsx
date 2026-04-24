@@ -93,6 +93,9 @@ function App() {
     setActiveScreen("home");
     setActiveNav(href);
 
+    // ✅ CLOSE SUCCESS PAGE
+    setLastOrder(null);
+
     setTimeout(() => {
       const id = href.startsWith("#") ? href.substring(1) : href;
       const element = document.getElementById(id);

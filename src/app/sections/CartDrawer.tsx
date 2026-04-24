@@ -93,15 +93,17 @@ export default function CartDrawer({
 
   return (
     <>
+      {/* OVERLAY BELOW NAVBAR */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm transition ${
+        className={`fixed inset-x-0 top-[88px] bottom-0 z-30 bg-black/60 backdrop-blur-sm transition ${
           isOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       />
 
+      {/* DRAWER BELOW NAVBAR */}
       <div
-        className={`fixed right-0 top-0 z-[80] h-full w-full max-w-md transform border-l border-white/10 bg-[#0f0f0f] shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-[88px] z-40 h-[calc(100vh-88px)] w-full max-w-md transform border-l border-white/10 bg-[#0f0f0f] shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -111,6 +113,7 @@ export default function CartDrawer({
               <div className="rounded-full bg-orange-500/15 p-2 text-orange-400">
                 <ShoppingCart className="h-5 w-5" />
               </div>
+
               <div>
                 <h2 className="text-xl font-bold text-white">Your Cart</h2>
                 <p className="text-sm text-white/60">{totalItems} items</p>
