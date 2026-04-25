@@ -32,9 +32,6 @@ function App() {
 
   const [activeScreen, setActiveScreen] = useState<"home" | "profile">("home");
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
-
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
   const [activeNav, setActiveNav] = useState("#home");
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -92,8 +89,6 @@ function App() {
   const handleNavigate = (href: string) => {
     setActiveScreen("home");
     setActiveNav(href);
-
-    // ✅ CLOSE SUCCESS PAGE
     setLastOrder(null);
 
     setTimeout(() => {
@@ -116,21 +111,6 @@ function App() {
     localStorage.setItem("restaurant-user-name", upper);
     showToast("Profile updated");
   };
-
-  const categories = useMemo(
-    () => ["All", ...new Set(menuItems.map((item) => item.category))],
-    [],
-  );
-
-  const filteredMenu = useMemo(() => {
-    return menuItems.filter((item) => {
-      return (
-        (selectedCategory === "All" || item.category === selectedCategory) &&
-        (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.desc.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-    });
-  }, [searchTerm, selectedCategory]);
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
@@ -273,15 +253,7 @@ function App() {
 
           <FeaturesSection />
 
-          <MenuSection
-            categories={categories}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filteredMenu={filteredMenu}
-            onAddToCart={handleAddToCart}
-          />
+          <MenuSection menuItems={menuItems} onAddToCart={handleAddToCart} />
 
           <AboutSection />
           <GallerySection />

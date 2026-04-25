@@ -37,12 +37,12 @@ export default function GallerySection() {
         {/* Column 1 */}
         <div className="grid gap-4">
           <ImageCard src={displayImages[0]} />
-          <ImageCard src={displayImages[1]} large />
+          <ImageCard src={displayImages[5]} large />
         </div>
 
         {/* Column 2 */}
         <div className="grid gap-4">
-          <ImageCard src={displayImages[5]} featured />
+          <ImageCard src={displayImages[1]} featured />
         </div>
 
         {/* Column 3 */}

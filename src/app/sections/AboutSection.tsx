@@ -1,26 +1,31 @@
 import { useState } from "react";
-import { FaLeaf, FaStar, FaUtensils, FaBirthdayCake } from "react-icons/fa";
+import {
+  FaLeaf,
+  FaStar,
+  FaUtensils,
+  FaBirthdayCake,
+  FaUserTie,
+} from "react-icons/fa";
 import { GiMeal, GiPartyPopper } from "react-icons/gi";
 import { MdDeliveryDining, MdFamilyRestroom } from "react-icons/md";
 import { motion } from "framer-motion";
 import { restaurantName } from "../data/restaurantData";
-import { FaUserTie } from "react-icons/fa";
 
 const galleryImages = [
   {
-    img: "/restaurant.jpg",
+    img: "/family.png",
     title: "Family Dining",
-    desc: "Enjoy comfortable seating and premium ambience designed for family lunches, dinners and weekend gatherings. Our space is crafted to give a warm and peaceful dining experience.",
+    desc: "Enjoy comfortable seating and premium ambience designed for family lunches, dinners and weekend gatherings.",
   },
   {
-    img: "/thali.jpg",
+    img: "/Festive-Premium-Thali.png",
     title: "Premium Thali",
-    desc: "Experience a complete Gujarati thali with farsan, sabzi, dal, rice, roti and sweets. Every plate is balanced with authentic taste and traditional presentation.",
+    desc: "Experience a complete Gujarati thali with farsan, sabzi, dal, rice, roti and sweets.",
   },
   {
-    img: "/catering.jpg",
+    img: "/catering.png",
     title: "Catering Service",
-    desc: "We provide catering services for events, birthdays and family functions. Our team ensures high-quality food, proper hygiene and smooth service.",
+    desc: "We provide catering services for events, birthdays and family functions.",
   },
 ];
 
@@ -28,7 +33,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative mx-auto max-w-7xl overflow-hidden px-4 py-20 text-white sm:px-6 lg:py-28"
+      className="relative mx-auto max-w-7xl overflow-hidden px-4 py-8 text-white sm:px-6 lg:py-20"
     >
       <div className="pointer-events-none absolute left-1/2 top-10 h-96 w-96 -translate-x-1/2 rounded-full bg-orange-500/10 blur-[120px]" />
 
@@ -60,26 +65,6 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* SINCE SECTION ON LEFT SIDE */}
-          <div className="mt-5 flex items-center gap-4 rounded-2xl border border-orange-400/20 bg-black/30 p-4 transition hover:scale-[1.01]">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
-              <img
-                src="/since.png"
-                alt="Since"
-                className="h-8 w-8 object-contain"
-              />
-            </div>
-
-            <div>
-              <p className="text-sm font-black text-orange-300">
-                Serving Since 2020
-              </p>
-              <p className="text-xs leading-relaxed text-white/50">
-                Trusted Gujarati taste with modern dining experience.
-              </p>
-            </div>
-          </div>
-
           <div className="mt-5 space-y-5">
             {galleryImages.map((item, index) => (
               <ImageRow key={item.title} {...item} index={index} />
@@ -95,8 +80,9 @@ export default function AboutSection() {
               Loved by customers for authentic taste, service and fresh food.
             </p>
           </div>
+
           <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
-            <Stat value="50+" label="Dishes" />
+            <Stat value="25+" label="Dishes" />
             <Stat value="100%" label="Fresh" />
             <Stat value="4.8★" label="Rating" />
           </div>
@@ -137,28 +123,28 @@ export default function AboutSection() {
             <FlipCard
               icon={<FaUtensils />}
               title="Authentic Taste"
-              desc="Experience the real taste of Gujarat with traditional recipes passed down through generations. Every dish is prepared with original spices and homemade techniques."
+              desc="Experience the real taste of Gujarat with traditional recipes passed down through generations."
               hint="Taste"
             />
 
             <FlipCard
               icon={<GiMeal />}
               title="Premium Thali"
-              desc="Our thali offers a complete meal with variety, balance and presentation. Every item is carefully curated to give a royal dining experience."
+              desc="Our thali offers a complete meal with variety, balance and presentation."
               hint="Thali"
             />
 
             <FlipCard
               icon={<FaLeaf />}
               title="Fresh Ingredients"
-              desc="We use fresh vegetables, high-quality spices and hygienic preparation methods so every bite feels pure and satisfying."
+              desc="We use fresh vegetables, high-quality spices and hygienic preparation methods."
               hint="Fresh"
             />
 
             <FlipCard
               icon={<FaUserTie />}
               title="Expert Chefs"
-              desc="Our chefs bring experience and passion for cooking. They combine traditional cooking skills with modern techniques."
+              desc="Our chefs bring experience and passion for traditional Gujarati cooking."
               hint="Chefs"
             />
           </div>
@@ -206,10 +192,41 @@ export default function AboutSection() {
                 service
               />
             </div>
+            <div className="w-full max-w-[480px] overflow-hidden rounded-2xl border border-white/10">
+              <br />
+              <img
+                src="/seating.png"
+                alt="Seating"
+                className="w-full h-auto object-cover"
+              />
+            </div>
           </div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+function ImageInfoCard({ img, title }: { img: string; title: string }) {
+  return (
+    <motion.div
+      whileHover={{ y: -4, scale: 1.01 }}
+      className="group overflow-hidden rounded-2xl border border-white/10 bg-black/35 shadow-xl"
+    >
+      <div className="relative h-[230px] overflow-hidden">
+        <img
+          src={img}
+          alt={title}
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        <div className="absolute bottom-4 left-4 right-4">
+          <h4 className="text-lg font-black text-orange-300">{title}</h4>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
