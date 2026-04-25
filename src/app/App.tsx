@@ -226,7 +226,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-16 text-white">
+    <div className="min-h-screen bg-black text-white pt-16">
       <Header
         activeNav={activeNav}
         setActiveNav={handleNavigate}
@@ -235,6 +235,16 @@ function App() {
         cartCount={cartCount}
         onProfileClick={() => setActiveScreen("profile")}
       />
+      <button
+        onClick={() =>
+          document
+            .getElementById("home")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+        className="fixed bottom-5 right-5 z-[9999] flex h-12 w-12 items-center justify-center rounded-full border border-orange-400/40 bg-black/80 text-2xl text-orange-300 shadow-[0_0_25px_rgba(249,115,22,0.35)] backdrop-blur-xl transition hover:scale-110 hover:bg-orange-500 hover:text-black md:hidden"
+      >
+        ↑
+      </button>
 
       {activeScreen === "profile" ? (
         <ProfilePage

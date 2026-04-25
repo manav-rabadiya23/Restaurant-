@@ -96,14 +96,14 @@ export default function CartDrawer({
       {/* OVERLAY BELOW NAVBAR */}
       <div
         onClick={onClose}
-        className={`fixed inset-x-0 top-[88px] bottom-0 z-30 bg-black/60 backdrop-blur-sm transition ${
+        className={`fixed inset-x-0 top-16 bottom-0 z-30 bg-black/60 backdrop-blur-sm transition ${
           isOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       />
 
       {/* DRAWER BELOW NAVBAR */}
       <div
-        className={`fixed right-0 top-[88px] z-40 h-[calc(100vh-88px)] w-full max-w-md transform border-l border-white/10 bg-[#0f0f0f] shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-16 z-40 h-[calc(100vh-4rem)] w-full max-w-md transform border-l border-white/10 bg-[#0f0f0f] shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

@@ -34,11 +34,11 @@ export default function OrderSuccess({
   };
 
   return (
-    <div className="fixed inset-x-0 top-[88px] bottom-0 z-40 overflow-y-auto bg-[#0b0b0c] text-white">
+    <div className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-[#0b0b0c] text-white">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="pointer-events-none fixed inset-x-0 top-[88px] bottom-0 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.16),_transparent_45%)]"
+        className="pointer-events-none fixed inset-x-0 top-16 bottom-0 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.16),_transparent_45%)]"
       />
 
       <div className="relative mx-auto flex min-h-full w-full max-w-7xl items-center px-4 py-10 sm:px-6 lg:py-14">
