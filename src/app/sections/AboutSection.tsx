@@ -33,33 +33,32 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative mx-auto max-w-7xl overflow-hidden px-4 py-8 text-white sm:px-6 lg:py-20"
+      className="relative mx-auto max-w-7xl overflow-hidden px-4 py-10 text-white sm:px-6 lg:py-20"
     >
-      <div className="pointer-events-none absolute left-1/2 top-10 h-96 w-96 -translate-x-1/2 rounded-full bg-orange-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-[100px] sm:h-96 sm:w-96" />
 
-      <div className="relative grid items-start gap-8 lg:grid-cols-2 xl:gap-10">
-        {/* LEFT SIDE */}
+      <div className="relative grid grid-cols-1 items-start gap-6 lg:grid-cols-2 xl:gap-10">
         <motion.div
           initial={{ opacity: 0, y: 45 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          viewport={{ once: false, amount: 0.25 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="rounded-[2rem] border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-xl"
         >
           <div className="relative overflow-hidden rounded-[1.5rem]">
             <img
               src="/food.jpg"
               alt="Gujarati Rasoi"
-              className="h-[430px] w-full object-cover sm:h-[560px]"
+              className="h-[280px] w-full object-cover sm:h-[560px]"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-            <div className="absolute bottom-6 left-5 right-5">
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-300">
+            <div className="absolute bottom-5 left-4 right-4 sm:bottom-6 sm:left-5 sm:right-5">
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-orange-300 sm:text-xs">
                 Authentic Gujarati Rasoi
               </p>
-              <h3 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">
+              <h3 className="mt-2 text-2xl font-black leading-tight sm:mt-3 sm:text-4xl">
                 Fresh, Warm & Truly Traditional
               </h3>
             </div>
@@ -81,20 +80,19 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
+          <div className="mt-6 grid grid-cols-3 gap-3 sm:mt-8 sm:gap-5">
             <Stat value="25+" label="Dishes" />
             <Stat value="100%" label="Fresh" />
             <Stat value="4.8★" label="Rating" />
           </div>
         </motion.div>
 
-        {/* RIGHT SIDE */}
         <motion.div
           initial={{ opacity: 0, x: 45 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          viewport={{ once: false, amount: 0.25 }}
-          className="relative rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-6 md:p-8"
+          viewport={{ once: false, amount: 0.2 }}
+          className="relative rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl sm:p-6 md:p-8"
         >
           <p className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">
             About Us
@@ -107,7 +105,7 @@ export default function AboutSection() {
             </span>
           </h2>
 
-          <p className="mt-6 text-base leading-relaxed text-white/65 sm:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-white/65 sm:mt-6 sm:text-lg">
             <span className="font-bold text-white">{restaurantName}</span>{" "}
             brings traditional Gujarati flavours into a clean, modern and
             premium restaurant experience.
@@ -119,7 +117,7 @@ export default function AboutSection() {
             birthday celebrations, small events and catering orders.
           </p>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+          <div className="mt-7 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5">
             <FlipCard
               icon={<FaUtensils />}
               title="Authentic Taste"
@@ -149,7 +147,7 @@ export default function AboutSection() {
             />
           </div>
 
-          <div className="mt-10 rounded-[1.8rem] border border-orange-400/20 bg-orange-500/10 p-5 sm:p-6">
+          <div className="mt-8 rounded-[1.8rem] border border-orange-400/20 bg-orange-500/10 p-4 sm:mt-10 sm:p-6">
             <div className="mb-6">
               <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-300">
                 We also provide
@@ -159,7 +157,7 @@ export default function AboutSection() {
               </h3>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
               <FlipCard
                 icon={<GiPartyPopper />}
                 title="Party Orders"
@@ -191,14 +189,8 @@ export default function AboutSection() {
                 hint="Catering"
                 service
               />
-            </div>
-            <div className="w-full max-w-[480px] overflow-hidden rounded-2xl border border-white/10">
-              <br />
-              <img
-                src="/seating.png"
-                alt="Seating"
-                className="w-full h-auto object-cover"
-              />
+
+              <SeatingImage />
             </div>
           </div>
         </motion.div>
@@ -207,23 +199,25 @@ export default function AboutSection() {
   );
 }
 
-function ImageInfoCard({ img, title }: { img: string; title: string }) {
+function SeatingImage() {
   return (
     <motion.div
       whileHover={{ y: -4, scale: 1.01 }}
-      className="group overflow-hidden rounded-2xl border border-white/10 bg-black/35 shadow-xl"
+      className="group overflow-hidden rounded-2xl border border-white/10 bg-black/35 shadow-xl sm:col-span-2"
     >
-      <div className="relative h-[230px] overflow-hidden">
+      <div className="relative h-[230px] w-full overflow-hidden sm:h-[320px]">
         <img
-          src={img}
-          alt={title}
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+          src="/seating.png"
+          alt="Restaurant Seating"
+          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
 
         <div className="absolute bottom-4 left-4 right-4">
-          <h4 className="text-lg font-black text-orange-300">{title}</h4>
+          <h4 className="text-xl font-black text-orange-300">
+            Premium Seating Area
+          </h4>
         </div>
       </div>
     </motion.div>
@@ -253,7 +247,7 @@ function ImageRow({
       <img
         src={img}
         alt={title}
-        className="h-[260px] w-full object-cover sm:h-auto sm:w-[58%]"
+        className="h-[220px] w-full object-cover sm:h-auto sm:w-[58%]"
       />
 
       <div className="flex flex-1 flex-col justify-center p-5">
@@ -280,7 +274,7 @@ function FlipCard({
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <div className="group h-[260px] [perspective:1200px]">
+    <div className="group h-[230px] [perspective:1200px] sm:h-[260px]">
       <div
         className={`relative h-full w-full rounded-2xl transition-all duration-700 [transform-style:preserve-3d] sm:group-hover:[transform:rotateY(180deg)] ${
           flipped ? "[transform:rotateY(180deg)]" : ""
@@ -293,7 +287,7 @@ function FlipCard({
                 {icon}
               </div>
 
-              <h3 className="text-lg font-black uppercase leading-tight tracking-wide">
+              <h3 className="text-base font-black uppercase leading-tight tracking-wide sm:text-lg">
                 {title}
               </h3>
 

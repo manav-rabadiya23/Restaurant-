@@ -27,20 +27,25 @@ export default function Header({
   const activeClass =
     "bg-orange-500/20 text-orange-300 shadow-[0_0_22px_rgba(249,115,22,0.22)]";
 
+  const handleNav = (href: string) => {
+    setActiveNav(href);
+    closeMobileMenu();
+  };
+
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-orange-400/10 bg-black/35 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+      <header className="fixed left-0 top-0 z-[9999] h-16 w-full border-b border-orange-400/10 bg-black/70 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-yellow-400/10" />
         <div className="absolute bottom-0 left-1/2 h-px w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-400/40 to-transparent" />
 
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <div className="relative mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <a
             href="#home"
             onClick={(e) => {
               e.preventDefault();
               setActiveNav("#home");
             }}
-            className="group relative text-xl font-black text-orange-400 sm:text-2xl"
+            className="group relative text-lg font-black text-orange-400 sm:text-2xl"
           >
             <span className="absolute -inset-3 rounded-2xl bg-orange-500/10 opacity-0 blur-xl transition group-hover:opacity-100" />
             <span className="relative bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">
@@ -74,7 +79,7 @@ export default function Header({
                 </span>
               </button>
 
-              <div className="invisible absolute left-0 top-full mt-4 w-56 translate-y-2 rounded-3xl border border-orange-300/15 bg-black/80 p-2 opacity-0 shadow-2xl shadow-black/60 backdrop-blur-2xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="invisible absolute left-0 top-full mt-4 w-56 translate-y-2 rounded-3xl border border-orange-300/15 bg-black/90 p-2 opacity-0 shadow-2xl shadow-black/60 backdrop-blur-2xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                 {[
                   { label: "About", href: "#about" },
                   { label: "Gallery", href: "#gallery" },
@@ -108,12 +113,12 @@ export default function Header({
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenCart}
-              className="relative hidden items-center gap-2 rounded-full border border-orange-400/40 bg-black/20 px-5 py-3 text-sm font-bold text-orange-300 shadow-[0_0_25px_rgba(249,115,22,0.12)] backdrop-blur-xl transition hover:bg-orange-500/10 hover:shadow-[0_0_35px_rgba(249,115,22,0.25)] sm:inline-flex"
+              className="relative hidden items-center gap-2 rounded-full border border-orange-400/40 bg-black/20 px-5 py-3 text-sm font-bold text-orange-300 shadow-[0_0_25px_rgba(249,115,22,0.12)] backdrop-blur-xl transition hover:bg-orange-500/10 sm:inline-flex"
             >
               <ShoppingCart className="h-4 w-4" />
               Order Online
               {cartCount > 0 && (
-                <span className="absolute -right-2 -top-2 flex h-6 min-w-[24px] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-black shadow-lg shadow-orange-500/40">
+                <span className="absolute -right-2 -top-2 flex h-6 min-w-[24px] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-black">
                   {cartCount}
                 </span>
               )}
@@ -121,7 +126,7 @@ export default function Header({
 
             <button
               onClick={onLogout}
-              className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-orange-500/35 transition hover:scale-105 hover:shadow-orange-500/50 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-orange-500/35 transition hover:scale-105 sm:inline-flex"
             >
               <LogOut className="h-4 w-4" />
               Logout
@@ -138,22 +143,23 @@ export default function Header({
       </header>
 
       <div
-        className={`fixed inset-0 z-[60] bg-black/70 backdrop-blur-md transition ${
+        className={`fixed inset-0 z-[9998] bg-black/70 backdrop-blur-md transition ${
           mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"
         } lg:hidden`}
         onClick={closeMobileMenu}
       />
 
       <aside
-        className={`fixed right-0 top-0 z-[70] h-full w-full max-w-sm transform border-l border-orange-300/15 bg-black/85 shadow-2xl backdrop-blur-2xl transition-transform duration-300 lg:hidden ${
+        className={`fixed right-0 top-0 z-[9999] h-full w-full max-w-sm transform border-l border-orange-300/15 bg-black/95 shadow-2xl backdrop-blur-2xl transition-transform duration-300 lg:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+          <div className="flex h-16 items-center justify-between border-b border-white/10 px-5">
             <h2 className="bg-gradient-to-r from-orange-400 to-yellow-300 bg-clip-text text-xl font-black text-transparent">
               Menu
             </h2>
+
             <button
               onClick={closeMobileMenu}
               className="rounded-full border border-white/10 p-2 text-white/70 transition hover:border-orange-400/30 hover:text-orange-300"
@@ -177,10 +183,7 @@ export default function Header({
 
               <a
                 href="#menu"
-                onClick={() => {
-                  setActiveNav("#menu");
-                  closeMobileMenu();
-                }}
+                onClick={() => handleNav("#menu")}
                 className="block rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white/85 transition hover:border-orange-400/30 hover:bg-orange-500/10 hover:text-orange-300"
               >
                 Menu
@@ -190,6 +193,7 @@ export default function Header({
                 <p className="mb-3 px-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-400">
                   About
                 </p>
+
                 <div className="space-y-2">
                   {[
                     { label: "About", href: "#about" },
@@ -201,10 +205,7 @@ export default function Header({
                     <a
                       key={item.href}
                       href={item.href}
-                      onClick={() => {
-                        setActiveNav(item.href);
-                        closeMobileMenu();
-                      }}
+                      onClick={() => handleNav(item.href)}
                       className="block rounded-xl px-4 py-3 text-white/80 transition hover:bg-orange-500/10 hover:text-orange-300"
                     >
                       {item.label}
@@ -215,10 +216,7 @@ export default function Header({
 
               <a
                 href="#booking"
-                onClick={() => {
-                  setActiveNav("#booking");
-                  closeMobileMenu();
-                }}
+                onClick={() => handleNav("#booking")}
                 className="block rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white/85 transition hover:border-orange-400/30 hover:bg-orange-500/10 hover:text-orange-300"
               >
                 Booking
@@ -226,28 +224,31 @@ export default function Header({
             </div>
           </div>
 
-          <div className="space-y-3 border-t border-white/10 px-5 py-5">
+          <div className="space-y-3 border-t border-white/10 p-5">
             <button
               onClick={() => {
                 onOpenCart();
                 closeMobileMenu();
               }}
-              className="relative inline-flex w-full items-center justify-center gap-2 rounded-full border border-orange-400/40 bg-black/20 px-4 py-3 text-sm font-bold text-orange-300 transition hover:bg-orange-500/10"
+              className="relative flex w-full items-center justify-center gap-2 rounded-2xl border border-orange-400/40 bg-orange-500/10 px-4 py-3 font-bold text-orange-300"
             >
-              <ShoppingCart className="h-4 w-4" />
+              <ShoppingCart className="h-5 w-5" />
               Order Online
               {cartCount > 0 && (
-                <span className="absolute right-4 top-1/2 flex h-6 min-w-[24px] -translate-y-1/2 items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-black shadow-lg">
+                <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-black">
                   {cartCount}
                 </span>
               )}
             </button>
 
             <button
-              onClick={onLogout}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 px-4 py-3 text-sm font-bold text-black shadow-lg shadow-orange-500/30 transition hover:scale-[1.02]"
+              onClick={() => {
+                onLogout();
+                closeMobileMenu();
+              }}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-yellow-400 px-4 py-3 font-bold text-black"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-5 w-5" />
               Logout
             </button>
           </div>

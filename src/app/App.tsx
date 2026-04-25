@@ -226,7 +226,7 @@ function App() {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="min-h-screen bg-black pt-16 text-white">
       <div className="fixed left-0 top-0 z-[9999] w-full">
         <Header
           activeNav={activeNav}
