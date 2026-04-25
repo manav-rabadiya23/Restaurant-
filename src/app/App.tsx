@@ -226,7 +226,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-16 sm:pt-20 text-white">
+    <div className="min-h-screen bg-black pt-16 text-white">
       <Header
         activeNav={activeNav}
         setActiveNav={handleNavigate}
