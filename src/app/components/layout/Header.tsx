@@ -21,39 +21,39 @@ export default function Header({
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
+  const handleNav = (href: string) => {
+    setActiveNav(href);
+    closeMobileMenu();
+  };
+
   const navItemClass =
     "rounded-full px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-orange-300";
 
   const activeClass =
     "bg-orange-500/20 text-orange-300 shadow-[0_0_22px_rgba(249,115,22,0.22)]";
 
-  const handleNav = (href: string) => {
-    setActiveNav(href);
-    closeMobileMenu();
-  };
-
   return (
     <>
-      <header className="fixed left-0 top-0 z-[9999] h-16 w-full border-b border-orange-400/10 bg-black/70 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+      <header className="sticky left-0 top-0 z-[9999] h-16 w-full border-b border-orange-400/10 bg-black/80 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-yellow-400/10" />
-        <div className="absolute bottom-0 left-1/2 h-px w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-400/40 to-transparent" />
 
-        <div className="relative mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="relative mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+          {/* LOGO */}
           <a
             href="#home"
             onClick={(e) => {
               e.preventDefault();
-              setActiveNav("#home");
+              handleNav("#home");
             }}
-            className="group relative text-lg font-black text-orange-400 sm:text-2xl"
+            className="text-xl font-black sm:text-2xl"
           >
-            <span className="absolute -inset-3 rounded-2xl bg-orange-500/10 opacity-0 blur-xl transition group-hover:opacity-100" />
-            <span className="relative bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">
               {restaurantName}
             </span>
           </a>
 
-          <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2 py-2 text-sm font-medium shadow-inner shadow-white/5 lg:flex">
+          {/* DESKTOP NAV */}
+          <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2 py-2 text-sm font-medium lg:flex">
             <button onClick={onProfileClick} className={navItemClass}>
               <span className="flex items-center gap-2">
                 <User className="h-4 w-4" />
@@ -110,7 +110,22 @@ export default function Header({
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* RIGHT ACTIONS */}
+          <div className="flex items-center gap-2">
+            {/* MOBILE CART OUTSIDE MENU */}
+            <button
+              onClick={onOpenCart}
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-orange-400/30 bg-white/5 text-orange-300 transition hover:bg-orange-500/10 sm:hidden"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-black text-black">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            {/* DESKTOP CART */}
             <button
               onClick={onOpenCart}
               className="relative hidden items-center gap-2 rounded-full border border-orange-400/40 bg-black/20 px-5 py-3 text-sm font-bold text-orange-300 shadow-[0_0_25px_rgba(249,115,22,0.12)] backdrop-blur-xl transition hover:bg-orange-500/10 sm:inline-flex"
@@ -132,16 +147,18 @@ export default function Header({
               Logout
             </button>
 
+            {/* MOBILE MENU BUTTON */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="inline-flex rounded-full border border-white/10 bg-white/5 p-2 text-white transition hover:border-orange-400/30 hover:text-orange-300 lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-orange-400/30 hover:text-orange-300 lg:hidden"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
       </header>
 
+      {/* MOBILE OVERLAY */}
       <div
         className={`fixed inset-0 z-[9998] bg-black/70 backdrop-blur-md transition ${
           mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"
@@ -149,6 +166,7 @@ export default function Header({
         onClick={closeMobileMenu}
       />
 
+      {/* MOBILE DRAWER */}
       <aside
         className={`fixed right-0 top-0 z-[9999] h-full w-full max-w-sm transform border-l border-orange-300/15 bg-black/95 shadow-2xl backdrop-blur-2xl transition-transform duration-300 lg:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -170,6 +188,7 @@ export default function Header({
 
           <div className="flex-1 overflow-y-auto px-5 py-5">
             <div className="space-y-3">
+              {/* PROFILE INSIDE THREE-LINE MENU */}
               <button
                 onClick={() => {
                   onProfileClick();
@@ -230,10 +249,10 @@ export default function Header({
                 onOpenCart();
                 closeMobileMenu();
               }}
-              className="relative flex w-full items-center justify-center gap-2 rounded-2xl border border-orange-400/40 bg-orange-500/10 px-4 py-3 font-bold text-orange-300"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-orange-400/40 bg-orange-500/10 px-4 py-3 font-bold text-orange-300"
             >
               <ShoppingCart className="h-5 w-5" />
-              Order Online
+              Open Cart
               {cartCount > 0 && (
                 <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-black">
                   {cartCount}
